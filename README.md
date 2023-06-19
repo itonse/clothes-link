@@ -56,7 +56,8 @@
 </br>
 
 ## ERD
-![ClothesLink.png](..%2F..%2FUsers%2Fcreate%2FDocuments%2FClothesLink.png)
+![ClothesLink](https://github.com/itonse/ClothesLink/assets/76129297/34050898-de77-4de9-9a30-a7924df9426a)
+
 
 </br>
 
@@ -65,7 +66,7 @@
 
 ### Tech Stack
 - java 11
-- Spring Boot 
+- Spring Boot 2.7.12 
 
 <div align=center> 
   <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white"> 
