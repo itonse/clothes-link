@@ -1,0 +1,18 @@
+spring:
+  jpa:
+    generate-ddl: true
+    show-sql: true
+    database: mysql
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/clotheslink?characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: 2
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
