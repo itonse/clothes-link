@@ -45,7 +45,7 @@
 </br>
 
 ## ERD
-![erd](https://github.com/itonse/ClothesLink/assets/76129297/7bcb597a-7fea-40eb-bb6a-0b8c3bd4a250)
+![erd](images/erd.png)
 
 </br>
 
