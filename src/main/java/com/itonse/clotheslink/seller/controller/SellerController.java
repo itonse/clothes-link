@@ -18,9 +18,9 @@ public class SellerController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/signup")
-    public ResponseEntity<?> SignUp(@RequestBody @Valid SignUpForm form) {
+    public ResponseEntity<String> SignUp(@RequestBody @Valid SignUpForm form) {
 
-        authenticationService.SignUp(SignUpForm.ToSignUpDto(form));
+        authenticationService.SignUp(SignUpForm.toSignUpDto(form));
 
         return ResponseEntity.ok("회원가입이 완료되었습니다.");
     }

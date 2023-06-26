@@ -6,7 +6,6 @@ import com.itonse.clotheslink.seller.dto.SignUpDto;
 import com.itonse.clotheslink.seller.repository.SellerRepository;
 
 import com.itonse.clotheslink.seller.service.Impl.AuthenticationServiceImpl;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

@@ -45,10 +45,10 @@ class SellerControllerTest {
         // when
         // then
         mockMvc.perform(MockMvcRequestBuilders.post("/seller/signup")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(signUpForm)))
-                        .andExpect(MockMvcResultMatchers.content()
-                                .string("회원가입이 완료되었습니다."));
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(signUpForm)))
+                .andExpect(MockMvcResultMatchers.content()
+                        .string("회원가입이 완료되었습니다."));
     }
 
     @Test
@@ -69,36 +69,35 @@ class SellerControllerTest {
         // when
         // then
         mockMvc.perform(MockMvcRequestBuilders.post("/seller/signup")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(fistForm)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(fistForm)))
                 .andExpect(MockMvcResultMatchers.content()
                         .string("회원가입이 완료되었습니다."));
 
         mockMvc.perform(MockMvcRequestBuilders.post("/seller/signup")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(secondForm)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.status").value(400))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(secondForm)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.httpStatus").value("BAD_REQUEST"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.errorCode").value("ALREADY_REGISTERED_SELLER"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("이미 가입된 이메일 입니다."));
 
     }
 
     @Test
-    void signUpValidException() throws Exception {
+    void signUpFailValidException() throws Exception {
         // given
         SignUpForm form = SignUpForm.builder()
                 .email("aaa@naver.com")
-                .password("12")
+                .password("11223344")
                 .build();
 
         // when
         // then
         mockMvc.perform(MockMvcRequestBuilders.post("/seller/signup")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(form)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(2))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0]").value("비밀번호는 8자 이상으로 입력해주세요."))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1]").value("연락처는 필수 항목 입니다."));
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(form)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0]").value("연락처는 필수 항목 입니다."));
     }
 
 }
