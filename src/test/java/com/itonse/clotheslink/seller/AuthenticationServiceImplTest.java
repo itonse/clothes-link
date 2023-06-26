@@ -44,7 +44,7 @@ class AuthenticationServiceImplTest {
         given(sellerRepository.save(any(Seller.class))).willReturn(new Seller());
 
         // when
-        authenticationService.SignUp(dto);
+        authenticationService.signUp(dto);
 
         // then
         verify(sellerRepository, times(1)).save(any(Seller.class));
@@ -62,7 +62,7 @@ class AuthenticationServiceImplTest {
 
         // when
         CustomException exception = assertThrows(CustomException.class, () -> {
-                    authenticationService.SignUp(dto);
+                    authenticationService.signUp(dto);
         });
 
         // then

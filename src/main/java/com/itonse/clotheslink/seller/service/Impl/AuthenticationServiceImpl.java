@@ -8,8 +8,6 @@ import com.itonse.clotheslink.seller.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 import static com.itonse.clotheslink.exception.ErrorCode.ALREADY_REGISTERED_SELLER;
 
 @RequiredArgsConstructor
@@ -19,15 +17,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final SellerRepository sellerRepository;
 
     @Override
-    public void SignUp(SignUpDto dto) {
+    public void signUp(SignUpDto dto) {
 
         Seller seller = SignUpDto.toEntity(dto);
 
-        Optional<Seller> existSeller = sellerRepository.findByEmail(dto.getEmail());
-
-        if (existSeller.isPresent()) {
+        sellerRepository.findByEmail(dto.getEmail()).ifPresent(e -> {
             throw new CustomException(ALREADY_REGISTERED_SELLER);
-        }
+        });
 
         sellerRepository.save(seller);
     }

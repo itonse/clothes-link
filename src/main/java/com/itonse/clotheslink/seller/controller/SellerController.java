@@ -20,7 +20,7 @@ public class SellerController {
     @PostMapping("/signup")
     public ResponseEntity<String> SignUp(@RequestBody @Valid SignUpForm form) {
 
-        authenticationService.SignUp(SignUpForm.toSignUpDto(form));
+        authenticationService.signUp(SignUpForm.toSignUpDto(form));
 
         return ResponseEntity.ok("회원가입이 완료되었습니다.");
     }
