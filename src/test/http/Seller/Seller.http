@@ -8,3 +8,12 @@ Content-Type: application/json
   "password": "11223344",
   "phone": "010-1111-2222"
 }
+
+### Seller SignIn
+POST http://localhost:8080/seller/signin
+Content-Type: application/json
+
+{
+  "email": "aaa@naver.com",
+  "password": "11223344"
+}
