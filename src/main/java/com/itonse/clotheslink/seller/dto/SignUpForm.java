@@ -26,7 +26,7 @@ public class SignUpForm {
     @NotBlank(message = "연락처는 필수 항목 입니다.")
     private String phone;
 
-    public static SignUpDto toSignUpDto(SignUpForm form) {
+    public static SignUpDto request(SignUpForm form) {
         return SignUpDto.builder()
                 .email(form.getEmail())
                 .password(form.getPassword())

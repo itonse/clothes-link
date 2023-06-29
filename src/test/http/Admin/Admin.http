@@ -1,3 +1,0 @@
-### 토큰 유효성 테스트
-POST http://localhost:8080/test/token
-AUTH-TOKEN:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYWFAbmF2ZXIuY29tIiwianRpIjoiMSIsInJvbGVzIjoiU0VMTEVSIiwiaWF0IjoxNjg4MDI3NDE3LCJleHAiOjE2ODgwMzgyMTd9.F7Xb2zYtYIGOnwwLnUKl_vlQ9RjovGsKIoa8aaTTqwA

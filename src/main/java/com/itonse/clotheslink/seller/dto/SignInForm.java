@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @Builder
 @Getter
-public class SignIn {
+public class SignInForm {
 
     @Email(message = "이메일 형식이 아닙니다.")
     @NotBlank(message = "이메일은 필수 항목입니다.")
@@ -24,14 +24,10 @@ public class SignIn {
     private String password;
 
 
-    public static SignInDto request(SignIn form) {
+    public static SignInDto request(SignInForm form) {
         return SignInDto.builder()
                 .email(form.getEmail())
                 .password(form.getPassword())
                 .build();
-    }
-
-    public static String response(String token) {
-        return token;
     }
 }

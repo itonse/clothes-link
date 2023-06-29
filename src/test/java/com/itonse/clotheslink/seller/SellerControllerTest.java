@@ -47,8 +47,8 @@ class SellerControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/seller/signup")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(signUpForm)))
-                .andExpect(MockMvcResultMatchers.content()
-                        .string("회원가입이 완료되었습니다."));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("aaa@naver.com"));
     }
 
     @Test
@@ -71,13 +71,12 @@ class SellerControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/seller/signup")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(fistForm)))
-                .andExpect(MockMvcResultMatchers.content()
-                        .string("회원가입이 완료되었습니다."));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("aaa@naver.com"));
 
         mockMvc.perform(MockMvcRequestBuilders.post("/seller/signup")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(secondForm)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.httpStatus").value("BAD_REQUEST"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.errorCode").value("ALREADY_REGISTERED_SELLER"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("이미 가입된 이메일 입니다."));
 

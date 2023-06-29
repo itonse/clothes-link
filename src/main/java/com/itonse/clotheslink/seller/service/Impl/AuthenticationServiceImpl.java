@@ -1,12 +1,14 @@
 package com.itonse.clotheslink.seller.service.Impl;
 
 import com.itonse.clotheslink.common.UserType;
+import com.itonse.clotheslink.common.UserVo;
 import com.itonse.clotheslink.config.security.JwtTokenProvider;
 import com.itonse.clotheslink.exception.CustomException;
 import com.itonse.clotheslink.seller.domain.Seller;
 import com.itonse.clotheslink.seller.dto.SignInDto;
-import com.itonse.clotheslink.seller.dto.SignIn;
+import com.itonse.clotheslink.seller.dto.SignUpResponse;
 import com.itonse.clotheslink.seller.dto.SignUpDto;
+import com.itonse.clotheslink.seller.dto.TokenUserResponse;
 import com.itonse.clotheslink.seller.repository.SellerRepository;
 import com.itonse.clotheslink.seller.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +24,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final JwtTokenProvider jwtTokenProvider;
 
     @Override
-    public void signUp(SignUpDto dto) {
+    public SignUpResponse signUp(SignUpDto dto) {
 
         Seller seller = SignUpDto.toEntity(dto);
 
@@ -31,6 +33,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         });
 
         sellerRepository.save(seller);
+
+        return SignUpResponse.builder()
+                .id(seller.getId())
+                .email(seller.getEmail())
+                .build();
     }
 
     @Override
@@ -39,15 +46,23 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 request.getEmail(), request.getPassword())
                         .orElseThrow(() -> new CustomException(LOGIN_FAIL));
 
-        String token =  jwtTokenProvider.createToken(seller.getEmail(), seller.getId(), UserType.SELLER);
-        return SignIn.response(token);
+        return jwtTokenProvider.createToken(seller.getEmail(), seller.getId(), UserType.SELLER);
     }
 
     @Override
-    public String findTokenUser(Long id, String email) {
-        Seller seller = sellerRepository.findByIdAndEmail(id, email)
-                .orElseThrow(() -> new CustomException(NOT_FOUND_USER));
-        return seller.getEmail();
+    public TokenUserResponse validateToken(String token) {
+        try {
+            UserVo vo = jwtTokenProvider.getUserInfo(token);
+            Seller seller = sellerRepository.findByIdAndEmail(vo.getId(), vo.getEmail())
+                    .orElseThrow(() -> new CustomException(NOT_FOUND_USER));
+            return TokenUserResponse.builder()
+                    .id(seller.getId())
+                    .email(seller.getEmail())
+                    .build();
+
+        } catch (Exception e) {
+            throw new CustomException(INVALID_TOKEN);
+        }
     }
 
 }

@@ -1,7 +1,9 @@
 package com.itonse.clotheslink.seller.controller;
 
-import com.itonse.clotheslink.seller.dto.SignIn;
+import com.itonse.clotheslink.seller.dto.SignInForm;
+import com.itonse.clotheslink.seller.dto.SignUpResponse;
 import com.itonse.clotheslink.seller.dto.SignUpForm;
+import com.itonse.clotheslink.seller.dto.TokenUserResponse;
 import com.itonse.clotheslink.seller.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,16 +18,20 @@ public class SellerController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/signup")
-    public ResponseEntity<String> signUp(@RequestBody @Valid SignUpForm form) {
+    public ResponseEntity<SignUpResponse> signUp(@RequestBody @Valid SignUpForm form) {
 
-        authenticationService.signUp(SignUpForm.toSignUpDto(form));
-
-        return ResponseEntity.ok("회원가입이 완료되었습니다.");
+        return ResponseEntity.ok().body(authenticationService.signUp(SignUpForm.request(form)));
     }
 
-    @PostMapping("/signin")
-    public ResponseEntity<String> signin(@RequestBody @Valid SignIn form) {
+    @PostMapping("/signin/token")
+    public ResponseEntity<String> signin(@RequestBody @Valid SignInForm form) {
 
-        return ResponseEntity.ok(authenticationService.loginToken(SignIn.request(form)));
+        return ResponseEntity.ok(authenticationService.loginToken(SignInForm.request(form)));
+    }
+
+    @GetMapping("/token/validation")
+    public ResponseEntity<TokenUserResponse> validateTokenTest(@RequestHeader(name = "AUTH-TOKEN") String token) {
+
+        return ResponseEntity.ok().body(authenticationService.validateToken(token));
     }
 }
