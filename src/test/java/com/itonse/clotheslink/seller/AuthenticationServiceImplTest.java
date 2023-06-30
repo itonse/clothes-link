@@ -83,7 +83,7 @@ class AuthenticationServiceImplTest {
                 .password("11223344")
                 .build();
 
-        given(sellerRepository.findByEmailAndPassword(any(), any()))
+        given(sellerRepository.findByEmailAndPassword(anyString(), anyString()))
                 .willReturn(Optional.of(new Seller()));
         given(jwtTokenProvider.createToken(any(), any(), any()))
                 .willReturn("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYWFAbmF2ZXIuY29tIiwianRpIjoiMSIsInJvbGVzIjoiU0VMTEVSIiwiaWF0IjoxNjg4MDg3NDM2LCJleHAiOjE2ODgwOTgyMzZ9.1q7TS9IRdY9ImwP9StI9NizYbD2LLcuAhw7ijnV8yiw");

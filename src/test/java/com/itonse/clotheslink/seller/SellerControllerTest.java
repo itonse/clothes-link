@@ -17,8 +17,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.regex.Matcher;
-
 @AutoConfigureMockMvc
 @SpringBootTest
 class SellerControllerTest {
@@ -128,6 +126,35 @@ class SellerControllerTest {
                 .content(objectMapper.writeValueAsString(signInForm)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.token").value(Matchers.notNullValue()));
+    }
+
+    @Test
+    void signInFailCustomException() throws Exception {
+        // given
+        SignUpForm signUpForm = SignUpForm.builder()
+                .email("aaa@naver.com")
+                .password("11223344")
+                .phone("010-2222-4444")
+                .build();
+
+        SignInForm signInForm = SignInForm.builder()
+                .email("bbb@naver.com")
+                .password("11223344")
+                .build();
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/seller/signup")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(signUpForm)));
+
+        // when
+        // then
+        mockMvc.perform(MockMvcRequestBuilders.post("/seller/signin/token")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(signInForm)))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.errorCode").value("LOGIN_FAIL"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("일치하는 회원정보가 없습니다."));
+
     }
 
 }
