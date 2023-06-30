@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Slf4j
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
@@ -37,7 +36,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         } else {
             // 유효하지 않은 토큰이저나 토큰이 없는 경우, 해당 요청을 처리하는 스레드의 SecurityContext 초기화 (인증되지 않은 상태로 설정)
             SecurityContextHolder.clearContext();
-            log.info("토큰이 만료되었거나 존재하지 않습니다.");
         }
 
         filterChain.doFilter(request, response);
