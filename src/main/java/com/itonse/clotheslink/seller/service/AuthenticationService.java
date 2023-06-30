@@ -8,7 +8,7 @@ import com.itonse.clotheslink.seller.dto.TokenUserResponse;
 public interface AuthenticationService {
     SignUpResponse signUp(SignUpDto dto);
 
-    String loginToken(SignInDto request);
+    String signin(SignInDto dto);
 
     TokenUserResponse validateToken(String token);
 }

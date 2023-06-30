@@ -41,9 +41,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public String loginToken(SignInDto request) {
+    public String signin(SignInDto dto) {
         Seller seller = sellerRepository.findByEmailAndPassword(
-                request.getEmail(), request.getPassword())
+                dto.getEmail(), dto.getPassword())
                         .orElseThrow(() -> new CustomException(LOGIN_FAIL));
 
         return jwtTokenProvider.createToken(seller.getEmail(), seller.getId(), UserType.SELLER);

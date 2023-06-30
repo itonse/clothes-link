@@ -26,7 +26,7 @@ public class SellerController {
     @PostMapping("/signin/token")
     public ResponseEntity<String> signin(@RequestBody @Valid SignInForm form) {
 
-        return ResponseEntity.ok(authenticationService.loginToken(SignInForm.request(form)));
+        return ResponseEntity.ok(authenticationService.signin(SignInForm.request(form)));
     }
 
     @GetMapping("/token/validation")
