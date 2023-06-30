@@ -26,7 +26,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public SignUpResponse signUp(SignUpDto dto) {
 
-        Seller seller = SignUpDto.toEntity(dto);
+        Seller seller = SignUpDto.toSellerEntity(dto);
 
         sellerRepository.findByEmail(dto.getEmail()).ifPresent(e -> {
             throw new CustomException(ALREADY_REGISTERED_SELLER);

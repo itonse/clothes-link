@@ -24,7 +24,7 @@ public class SignInForm {
     private String password;
 
 
-    public static SignInDto request(SignInForm form) {
+    public static SignInDto toSignInDto(SignInForm form) {
         return SignInDto.builder()
                 .email(form.getEmail())
                 .password(form.getPassword())

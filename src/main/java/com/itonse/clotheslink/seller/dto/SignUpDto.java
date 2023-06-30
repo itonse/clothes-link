@@ -15,7 +15,7 @@ public class SignUpDto {
     private String password;
     private String phone;
 
-    public static Seller toEntity(SignUpDto dto) {
+    public static Seller toSellerEntity(SignUpDto dto) {
         return Seller.builder()
                 .email(dto.getEmail())
                 .password(dto.getPassword())
