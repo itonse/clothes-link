@@ -1,9 +1,11 @@
 package com.itonse.clotheslink.seller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.itonse.clotheslink.seller.dto.SignInForm;
 import com.itonse.clotheslink.seller.dto.SignUpForm;
 import com.itonse.clotheslink.seller.repository.SellerRepository;
 
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -47,8 +49,8 @@ class SellerControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/seller/signup")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(signUpForm)))
-                .andExpect(MockMvcResultMatchers.content()
-                        .string("회원가입이 완료되었습니다."));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("aaa@naver.com"));
     }
 
     @Test
@@ -71,13 +73,12 @@ class SellerControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/seller/signup")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(fistForm)))
-                .andExpect(MockMvcResultMatchers.content()
-                        .string("회원가입이 완료되었습니다."));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("aaa@naver.com"));
 
         mockMvc.perform(MockMvcRequestBuilders.post("/seller/signup")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(secondForm)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.httpStatus").value("BAD_REQUEST"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.errorCode").value("ALREADY_REGISTERED_SELLER"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("이미 가입된 이메일 입니다."));
 
@@ -98,6 +99,62 @@ class SellerControllerTest {
                 .content(objectMapper.writeValueAsString(form)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0]").value("연락처는 필수 항목 입니다."));
+    }
+
+    @Test
+    void signInSuccess() throws Exception {
+        // given
+        SignUpForm signUpForm = SignUpForm.builder()
+                .email("aaa@naver.com")
+                .password("11223344")
+                .phone("010-2222-4444")
+                .build();
+
+        SignInForm signInForm = SignInForm.builder()
+                .email("aaa@naver.com")
+                .password("11223344")
+                .build();
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/seller/signup")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(signUpForm)));
+
+        // when
+        // then
+        mockMvc.perform(MockMvcRequestBuilders.post("/seller/signin/token")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(signInForm)))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.token").value(Matchers.notNullValue()));
+    }
+
+    @Test
+    void signInFailCustomException() throws Exception {
+        // given
+        SignUpForm signUpForm = SignUpForm.builder()
+                .email("aaa@naver.com")
+                .password("11223344")
+                .phone("010-2222-4444")
+                .build();
+
+        SignInForm signInForm = SignInForm.builder()
+                .email("bbb@naver.com")
+                .password("11223344")
+                .build();
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/seller/signup")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(signUpForm)));
+
+        // when
+        // then
+        mockMvc.perform(MockMvcRequestBuilders.post("/seller/signin/token")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(signInForm)))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.errorCode").value("LOGIN_FAIL"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("일치하는 회원정보가 없습니다."));
+
     }
 
 }

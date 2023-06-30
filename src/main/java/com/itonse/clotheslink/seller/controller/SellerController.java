@@ -1,15 +1,17 @@
 package com.itonse.clotheslink.seller.controller;
 
+import com.itonse.clotheslink.seller.dto.SignInForm;
+import com.itonse.clotheslink.seller.dto.SignUpResponse;
 import com.itonse.clotheslink.seller.dto.SignUpForm;
+import com.itonse.clotheslink.seller.dto.TokenUserResponse;
 import com.itonse.clotheslink.seller.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 @RequestMapping("/seller")
 @RequiredArgsConstructor
@@ -18,10 +20,24 @@ public class SellerController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/signup")
-    public ResponseEntity<String> SignUp(@RequestBody @Valid SignUpForm form) {
+    public ResponseEntity<SignUpResponse> signUp(@RequestBody @Valid SignUpForm form) {
 
-        authenticationService.signUp(SignUpForm.toSignUpDto(form));
+        return ResponseEntity.ok().body(authenticationService.signUp(SignUpForm.request(form)));
+    }
 
-        return ResponseEntity.ok("회원가입이 완료되었습니다.");
+    @PostMapping("/signin/token")
+    public ResponseEntity<Map> signin(@RequestBody @Valid SignInForm form) {
+
+        String token = authenticationService.signin(SignInForm.request(form));
+        Map<String, String> response = new HashMap<>();
+        response.put("token", token);
+
+        return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("/token/validation")
+    public ResponseEntity<TokenUserResponse> validateTokenTest(@RequestHeader(name = "AUTH-TOKEN") String token) {
+
+        return ResponseEntity.ok().body(authenticationService.validateToken(token));
     }
 }

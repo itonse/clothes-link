@@ -8,3 +8,16 @@ Content-Type: application/json
   "password": "11223344",
   "phone": "010-1111-2222"
 }
+
+### Seller SignIn
+POST http://localhost:8080/seller/signin/token
+Content-Type: application/json
+
+{
+  "email": "aaa@naver.com",
+  "password": "11223344"
+}
+
+### 토큰 유효성 테스트
+GET http://localhost:8080/seller/token/validation
+AUTH-TOKEN:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYWFAbmF2ZXIuY29tIiwianRpIjoiMSIsInJvbGVzIjoiU0VMTEVSIiwiaWF0IjoxNjg4MDQ0MzQxLCJleHAiOjE2ODgwNTUxNDF9.-n-X4Odz02k00Sfytp3kUA6HQq7pqWHLlxCSzJH_5so
