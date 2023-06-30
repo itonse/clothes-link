@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 @RequestMapping("/seller")
 @RequiredArgsConstructor
@@ -24,9 +26,13 @@ public class SellerController {
     }
 
     @PostMapping("/signin/token")
-    public ResponseEntity<String> signin(@RequestBody @Valid SignInForm form) {
+    public ResponseEntity<Map> signin(@RequestBody @Valid SignInForm form) {
 
-        return ResponseEntity.ok(authenticationService.signin(SignInForm.request(form)));
+        String token = authenticationService.signin(SignInForm.request(form));
+        Map<String, String> response = new HashMap<>();
+        response.put("token", token);
+
+        return ResponseEntity.ok().body(response);
     }
 
     @GetMapping("/token/validation")
