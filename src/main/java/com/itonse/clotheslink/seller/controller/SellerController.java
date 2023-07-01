@@ -22,13 +22,13 @@ public class SellerController {
     @PostMapping("/signup")
     public ResponseEntity<SignUpResponse> signUp(@RequestBody @Valid SignUpForm form) {
 
-        return ResponseEntity.ok().body(authenticationService.signUp(SignUpForm.request(form)));
+        return ResponseEntity.ok().body(authenticationService.signUp(SignUpForm.toSignUpDto(form)));
     }
 
     @PostMapping("/signin/token")
     public ResponseEntity<Map> signin(@RequestBody @Valid SignInForm form) {
 
-        String token = authenticationService.signin(SignInForm.request(form));
+        String token = authenticationService.signin(SignInForm.toSignInDto(form));
         Map<String, String> response = new HashMap<>();
         response.put("token", token);
 

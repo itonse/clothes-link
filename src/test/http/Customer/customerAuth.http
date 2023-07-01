@@ -1,0 +1,9 @@
+### Customer signUp
+POST http://localhost:8080/customer/signup
+Content-Type: application/json
+
+{
+  "email": "ddd@naver.com",
+  "password": "1122334",
+  "phone": "010-1111-2222"
+}

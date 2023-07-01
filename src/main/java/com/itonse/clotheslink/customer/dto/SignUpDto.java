@@ -1,6 +1,6 @@
-package com.itonse.clotheslink.seller.dto;
+package com.itonse.clotheslink.customer.dto;
 
-import com.itonse.clotheslink.seller.domain.Seller;
+import com.itonse.clotheslink.customer.domain.Customer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,12 +12,14 @@ import lombok.NoArgsConstructor;
 @Getter
 public class SignUpDto {
     private String email;
+    private String name;
     private String password;
     private String phone;
 
-    public static Seller toSellerEntity(SignUpDto dto) {
-        return Seller.builder()
+    public static Customer toCustomerEntity(SignUpDto dto) {
+        return Customer.builder()
                 .email(dto.getEmail())
+                .name(dto.getName())
                 .password(dto.getPassword())
                 .phone(dto.getPhone())
                 .build();
