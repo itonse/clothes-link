@@ -7,7 +7,7 @@ import com.itonse.clotheslink.seller.dto.SignInDto;
 import com.itonse.clotheslink.seller.dto.SignUpDto;
 import com.itonse.clotheslink.seller.repository.SellerRepository;
 
-import com.itonse.clotheslink.seller.service.Impl.AuthenticationServiceImpl;
+import com.itonse.clotheslink.seller.service.Impl.SellerAuthServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -25,7 +25,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-class AuthenticationServiceImplTest {
+class SellerAuthServiceImplTest {
 
     @Mock
     private SellerRepository sellerRepository;
@@ -34,7 +34,7 @@ class AuthenticationServiceImplTest {
     private JwtTokenProvider jwtTokenProvider;
 
     @InjectMocks
-    private AuthenticationServiceImpl authenticationService;
+    private SellerAuthServiceImpl sellerAuthService;
 
     @Test
     void signUpSuccess() {
@@ -49,7 +49,7 @@ class AuthenticationServiceImplTest {
         given(sellerRepository.save(any(Seller.class))).willReturn(new Seller());
 
         // when
-        authenticationService.signUp(dto);
+        sellerAuthService.signUp(dto);
 
         // then
         verify(sellerRepository, times(1)).save(any(Seller.class));
@@ -67,7 +67,7 @@ class AuthenticationServiceImplTest {
 
         // when
         CustomException exception = assertThrows(CustomException.class, () -> {
-                    authenticationService.signUp(dto);
+            sellerAuthService.signUp(dto);
         });
 
         // then
@@ -89,7 +89,7 @@ class AuthenticationServiceImplTest {
                 .willReturn("sampleValidToken");
 
         // when
-        String token = authenticationService.signin(dto);
+        String token = sellerAuthService.signin(dto);
 
         // then
         assertNotNull(token);
@@ -109,7 +109,7 @@ class AuthenticationServiceImplTest {
 
         // when
         CustomException e = assertThrows(CustomException.class,() -> {
-            authenticationService.signin(dto);
+            sellerAuthService.signin(dto);
         });
 
         // then

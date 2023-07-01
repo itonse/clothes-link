@@ -7,7 +7,7 @@ import com.itonse.clotheslink.customer.dto.SignInDto;
 import com.itonse.clotheslink.customer.dto.SignUpDto;
 import com.itonse.clotheslink.customer.dto.SignUpResponse;
 import com.itonse.clotheslink.customer.repository.CustomerRepository;
-import com.itonse.clotheslink.customer.service.SignService;
+import com.itonse.clotheslink.customer.service.CustomerAuthService;
 import com.itonse.clotheslink.exception.CustomException;
 
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import static com.itonse.clotheslink.exception.ErrorCode.LOGIN_FAIL;
 
 @RequiredArgsConstructor
 @Service
-public class SignServiceImpl implements SignService {
+public class CustomerAuthServiceImpl implements CustomerAuthService {
 
     private final CustomerRepository customerRepository;
     private final JwtTokenProvider jwtTokenProvider;

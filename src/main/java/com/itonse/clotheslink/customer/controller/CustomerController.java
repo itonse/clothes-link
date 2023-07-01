@@ -3,7 +3,7 @@ package com.itonse.clotheslink.customer.controller;
 import com.itonse.clotheslink.customer.dto.SignInForm;
 import com.itonse.clotheslink.customer.dto.SignUpForm;
 import com.itonse.clotheslink.customer.dto.SignUpResponse;
-import com.itonse.clotheslink.customer.service.SignService;
+import com.itonse.clotheslink.customer.service.CustomerAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,17 +20,17 @@ import java.util.Map;
 @RestController
 public class CustomerController {
 
-    private final SignService signService;
+    private final CustomerAuthService customerAuthService;
 
     @PostMapping("/signup")
     public ResponseEntity<SignUpResponse> signUp(@RequestBody @Valid SignUpForm form) {
 
-        return ResponseEntity.ok().body(signService.signUp(SignUpForm.toSignUpDto(form)));
+        return ResponseEntity.ok().body(customerAuthService.signUp(SignUpForm.toSignUpDto(form)));
     }
 
     @PostMapping("/signin/token")
     public ResponseEntity<Map> signIn(@RequestBody @Valid SignInForm form) {
-        String token = signService.signIn(SignInForm.toSignInDto(form));
+        String token = customerAuthService.signIn(SignInForm.toSignInDto(form));
         Map<String, String> tokenResponse = new HashMap<>();
         tokenResponse.put("TOKEN", token);
 

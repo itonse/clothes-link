@@ -10,7 +10,7 @@ import com.itonse.clotheslink.seller.dto.SignUpResponse;
 import com.itonse.clotheslink.seller.dto.SignUpDto;
 import com.itonse.clotheslink.seller.dto.TokenUserResponse;
 import com.itonse.clotheslink.seller.repository.SellerRepository;
-import com.itonse.clotheslink.seller.service.AuthenticationService;
+import com.itonse.clotheslink.seller.service.SellerAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,7 @@ import static com.itonse.clotheslink.exception.ErrorCode.*;
 
 @RequiredArgsConstructor
 @Service
-public class AuthenticationServiceImpl implements AuthenticationService {
+public class SellerAuthServiceImpl implements SellerAuthService {
 
     private final SellerRepository sellerRepository;
     private final JwtTokenProvider jwtTokenProvider;

@@ -4,7 +4,7 @@ import com.itonse.clotheslink.seller.dto.SignInForm;
 import com.itonse.clotheslink.seller.dto.SignUpResponse;
 import com.itonse.clotheslink.seller.dto.SignUpForm;
 import com.itonse.clotheslink.seller.dto.TokenUserResponse;
-import com.itonse.clotheslink.seller.service.AuthenticationService;
+import com.itonse.clotheslink.seller.service.SellerAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,18 +17,18 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RestController
 public class SellerController {
-    private final AuthenticationService authenticationService;
+    private final SellerAuthService sellerAuthService;
 
     @PostMapping("/signup")
     public ResponseEntity<SignUpResponse> signUp(@RequestBody @Valid SignUpForm form) {
 
-        return ResponseEntity.ok().body(authenticationService.signUp(SignUpForm.toSignUpDto(form)));
+        return ResponseEntity.ok().body(sellerAuthService.signUp(SignUpForm.toSignUpDto(form)));
     }
 
     @PostMapping("/signin/token")
     public ResponseEntity<Map> signin(@RequestBody @Valid SignInForm form) {
 
-        String token = authenticationService.signin(SignInForm.toSignInDto(form));
+        String token = sellerAuthService.signin(SignInForm.toSignInDto(form));
         Map<String, String> response = new HashMap<>();
         response.put("TOKEN", token);
 
@@ -38,6 +38,6 @@ public class SellerController {
     @GetMapping("/token/validation")
     public ResponseEntity<TokenUserResponse> validateTokenTest(@RequestHeader(name = "AUTH-TOKEN") String token) {
 
-        return ResponseEntity.ok().body(authenticationService.validateToken(token));
+        return ResponseEntity.ok().body(sellerAuthService.validateToken(token));
     }
 }

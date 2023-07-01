@@ -24,7 +24,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-class SignServiceImplTest {
+class CustomerAuthServiceImplTest {
 
     @Mock
     CustomerRepository customerRepository;
@@ -33,7 +33,7 @@ class SignServiceImplTest {
     private JwtTokenProvider jwtTokenProvider;
 
     @InjectMocks
-    SignServiceImpl signService;
+    CustomerAuthServiceImpl customerAuthService;
 
     @Test
     void signUpSuccess() {
@@ -49,7 +49,7 @@ class SignServiceImplTest {
                 .willReturn(Optional.empty());
 
         // when
-        signService.signUp(dto);
+        customerAuthService.signUp(dto);
 
         // then
         verify(customerRepository, times(1)).save(any(Customer.class));
@@ -70,7 +70,7 @@ class SignServiceImplTest {
 
         // when
         CustomException e = assertThrows(CustomException.class, () -> {
-            signService.signUp(dto);
+            customerAuthService.signUp(dto);
         });
 
         // then
@@ -92,7 +92,7 @@ class SignServiceImplTest {
         given(jwtTokenProvider.createToken(any(), any(), any()))
                 .willReturn("sampleValidToken");
         // when
-        String token = signService.signIn(dto);
+        String token = customerAuthService.signIn(dto);
 
         // then
         assertEquals("sampleValidToken", token);
@@ -111,7 +111,7 @@ class SignServiceImplTest {
 
         // when
         CustomException e = assertThrows(CustomException.class, () -> {
-            signService.signIn(dto);
+            customerAuthService.signIn(dto);
         });
 
         // then

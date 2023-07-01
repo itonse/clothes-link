@@ -5,7 +5,7 @@ import com.itonse.clotheslink.seller.dto.SignUpResponse;
 import com.itonse.clotheslink.seller.dto.SignUpDto;
 import com.itonse.clotheslink.seller.dto.TokenUserResponse;
 
-public interface AuthenticationService {
+public interface SellerAuthService {
     SignUpResponse signUp(SignUpDto dto);
 
     String signin(SignInDto dto);
