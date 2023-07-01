@@ -1,4 +1,4 @@
-package com.itonse.clotheslink.seller;
+package com.itonse.clotheslink.seller.service;
 
 import com.itonse.clotheslink.config.security.JwtTokenProvider;
 import com.itonse.clotheslink.exception.CustomException;

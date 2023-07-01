@@ -1,4 +1,4 @@
-package com.itonse.clotheslink.seller;
+package com.itonse.clotheslink.seller.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itonse.clotheslink.seller.dto.SignInForm;

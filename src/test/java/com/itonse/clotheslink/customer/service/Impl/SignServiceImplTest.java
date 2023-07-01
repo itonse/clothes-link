@@ -1,6 +1,8 @@
 package com.itonse.clotheslink.customer.service.Impl;
 
+import com.itonse.clotheslink.config.security.JwtTokenProvider;
 import com.itonse.clotheslink.customer.domain.Customer;
+import com.itonse.clotheslink.customer.dto.SignInDto;
 import com.itonse.clotheslink.customer.dto.SignUpDto;
 import com.itonse.clotheslink.customer.repository.CustomerRepository;
 import com.itonse.clotheslink.exception.CustomException;
@@ -13,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static com.itonse.clotheslink.exception.ErrorCode.ALREADY_REGISTERED_CUSTOMER;
+import static com.itonse.clotheslink.exception.ErrorCode.LOGIN_FAIL;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -25,6 +28,9 @@ class SignServiceImplTest {
 
     @Mock
     CustomerRepository customerRepository;
+
+    @Mock
+    private JwtTokenProvider jwtTokenProvider;
 
     @InjectMocks
     SignServiceImpl signService;
@@ -71,5 +77,45 @@ class SignServiceImplTest {
         assertEquals(ALREADY_REGISTERED_CUSTOMER, e.getErrorCode());
         assertEquals("이미 가입된 이메일 입니다.", e.getMessage());
         verify(customerRepository, times(0)).save(any(Customer.class));
+    }
+
+    @Test
+    void signInSuccess() {
+        //given
+        SignInDto dto = SignInDto.builder()
+                .email("bbb@naver.com")
+                .password("11223344")
+                .build();
+
+        given(customerRepository.findByEmailAndPassword(dto.getEmail(), dto.getPassword()))
+                .willReturn(Optional.of(new Customer()));
+        given(jwtTokenProvider.createToken(any(), any(), any()))
+                .willReturn("sampleValidToken");
+        // when
+        String token = signService.signIn(dto);
+
+        // then
+        assertEquals("sampleValidToken", token);
+    }
+
+    @Test
+    void signInFail() {
+        // given
+        SignInDto dto = SignInDto.builder()
+                .email("bbb@naver.com")
+                .password("11223344")
+                .build();
+
+        given(customerRepository.findByEmailAndPassword(dto.getEmail(), dto.getPassword()))
+                .willThrow(new CustomException(LOGIN_FAIL));
+
+        // when
+        CustomException e = assertThrows(CustomException.class, () -> {
+            signService.signIn(dto);
+        });
+
+        // then
+        assertEquals(LOGIN_FAIL, e.getErrorCode());
+        assertEquals("일치하는 회원정보가 없습니다." ,e.getMessage());
     }
 }
