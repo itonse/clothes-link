@@ -14,10 +14,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Slf4j
 @RequiredArgsConstructor
+/**
+ * 모든 HTTP 요청에 대해 필터링을 한 번씩 수행합니다.
+ * 주된 기능은 JWT 토큰의 유효성을 검사하고 인증 정보를 설정하는 것입니다.
+ * 만약 권한이 없거나 유효하지 않은 토큰이 있으면 필터링 과정에서 처리됩니다.
+ */
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    // Authorization(HEADER): Bearer(PREFIX) + JWT토큰
+    // Authorization(HEADER): Bearer(PREFIX) + eyJhbGci..(JWT토큰)
     public static final String TOKEN_HEADER = "Authorization";
     public static final String TOKEN_PREFIX = "Bearer ";
 
@@ -34,7 +40,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             Authentication auth = jwtTokenProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(auth);
         } else {
-            // 유효하지 않은 토큰이저나 토큰이 없는 경우, 해당 요청을 처리하는 스레드의 SecurityContext 초기화 (인증되지 않은 상태로 설정)
+            // 유효하지 않은 토큰이거나 토큰이 없는 경우, 해당 요청을 처리하는 스레드의 SecurityContext 초기화 (인증되지 않은 상태로 설정)
             SecurityContextHolder.clearContext();
         }
 
@@ -42,9 +48,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     public String resolveToken(HttpServletRequest request) {
+        // HTTP 요청의 RequestHeader 에 토큰이 포함되어 있다면 토큰 가져오기
         String token = request.getHeader(TOKEN_HEADER);
 
         if (!ObjectUtils.isEmpty(token) && token.startsWith(TOKEN_PREFIX)) {
+            // Authorization: Bearer eyJhbGci.. 에서 Bearer 를 제외하고 토크값인 eyJhbGci.. 을 반환
             return token.substring(TOKEN_PREFIX.length());
         }
 

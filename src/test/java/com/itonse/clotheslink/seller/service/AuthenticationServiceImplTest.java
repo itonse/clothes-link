@@ -1,4 +1,4 @@
-package com.itonse.clotheslink.seller;
+package com.itonse.clotheslink.seller.service;
 
 import com.itonse.clotheslink.config.security.JwtTokenProvider;
 import com.itonse.clotheslink.exception.CustomException;
@@ -45,7 +45,7 @@ class AuthenticationServiceImplTest {
                 .phone("010-1111-2222")
                 .build();
 
-        given(sellerRepository.findByEmail(anyString())).willReturn(Optional.empty());
+        given(sellerRepository.findByEmail(dto.getEmail())).willReturn(Optional.empty());
         given(sellerRepository.save(any(Seller.class))).willReturn(new Seller());
 
         // when
@@ -62,7 +62,7 @@ class AuthenticationServiceImplTest {
                 .email("kkk@naver.com")
                 .build();
 
-        given(sellerRepository.findByEmail(anyString()))
+        given(sellerRepository.findByEmail(dto.getEmail()))
                 .willReturn(Optional.of(new Seller()));
 
         // when
@@ -83,18 +83,17 @@ class AuthenticationServiceImplTest {
                 .password("11223344")
                 .build();
 
-        given(sellerRepository.findByEmailAndPassword(anyString(), anyString()))
+        given(sellerRepository.findByEmailAndPassword(dto.getEmail(), dto.getPassword()))
                 .willReturn(Optional.of(new Seller()));
         given(jwtTokenProvider.createToken(any(), any(), any()))
-                .willReturn("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYWFAbmF2ZXIuY29tIiwianRpIjoiMSIsInJvbGVzIjoiU0VMTEVSIiwiaWF0IjoxNjg4MDg3NDM2LCJleHAiOjE2ODgwOTgyMzZ9.1q7TS9IRdY9ImwP9StI9NizYbD2LLcuAhw7ijnV8yiw");
+                .willReturn("sampleValidToken");
 
         // when
         String token = authenticationService.signin(dto);
 
         // then
         assertNotNull(token);
-        assertEquals("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYWFAbmF2ZXIuY29tIiwianRpIjoiMSIsInJvbGVzIjoiU0VMTEVSIiwiaWF0IjoxNjg4MDg3NDM2LCJleHAiOjE2ODgwOTgyMzZ9.1q7TS9IRdY9ImwP9StI9NizYbD2LLcuAhw7ijnV8yiw"
-                , token);
+        assertEquals("sampleValidToken", token);
     }
 
     @Test
@@ -105,7 +104,7 @@ class AuthenticationServiceImplTest {
                 .password("11223344")
                 .build();
 
-        given(sellerRepository.findByEmailAndPassword(any(), any()))
+        given(sellerRepository.findByEmailAndPassword(dto.getEmail(), dto.getPassword()))
                 .willThrow(new CustomException(LOGIN_FAIL));
 
         // when

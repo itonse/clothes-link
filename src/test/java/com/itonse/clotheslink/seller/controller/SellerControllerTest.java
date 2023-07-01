@@ -1,4 +1,4 @@
-package com.itonse.clotheslink.seller;
+package com.itonse.clotheslink.seller.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itonse.clotheslink.seller.dto.SignInForm;
@@ -117,7 +117,8 @@ class SellerControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.post("/seller/signup")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(signUpForm)));
+                .content(objectMapper.writeValueAsString(signUpForm)))
+                .andExpect(MockMvcResultMatchers.status().isOk());
 
         // when
         // then
@@ -125,26 +126,16 @@ class SellerControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(signInForm)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.token").value(Matchers.notNullValue()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.TOKEN").value(Matchers.notNullValue()));
     }
 
     @Test
     void signInFailCustomException() throws Exception {
         // given
-        SignUpForm signUpForm = SignUpForm.builder()
-                .email("aaa@naver.com")
-                .password("11223344")
-                .phone("010-2222-4444")
-                .build();
-
         SignInForm signInForm = SignInForm.builder()
                 .email("bbb@naver.com")
                 .password("11223344")
                 .build();
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/seller/signup")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(signUpForm)));
 
         // when
         // then

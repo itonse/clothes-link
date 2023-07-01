@@ -1,8 +1,10 @@
 package com.itonse.clotheslink.customer.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.itonse.clotheslink.customer.dto.SignInForm;
 import com.itonse.clotheslink.customer.dto.SignUpForm;
 import com.itonse.clotheslink.customer.repository.CustomerRepository;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,5 +104,53 @@ class CustomerControllerTest {
                 .content(objectMapper.writeValueAsString(signUpForm)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andExpect(MockMvcResultMatchers.jsonPath("$").value("비밀번호는 최소 8자 ~ 최대 20자 이내로 입력해주세요."));
+    }
+
+    @Test
+    void signInSuccess() throws Exception {
+        // given
+        SignUpForm signUpForm = SignUpForm.builder()
+                .email("bbb@naver.com")
+                .name("박삼번")
+                .password("11223344")
+                .phone("010-1111-2222")
+                .build();
+
+        SignInForm signInForm = SignInForm.builder()
+                .email("bbb@naver.com")
+                .password("11223344")
+                .build();
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/customer/signup")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(signUpForm)))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+
+        // when
+        // then
+        mockMvc.perform(MockMvcRequestBuilders.post("/customer/signin/token")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(signInForm)))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.TOKEN").value(Matchers.notNullValue()));
+    }
+
+    @Test
+    void signInFailCustomException() throws Exception {
+        // given
+        SignInForm signInForm = SignInForm.builder()
+                .email("bbb@naver.com")
+                .password("11223344")
+                .build();
+
+        // when
+        // then
+        mockMvc.perform(MockMvcRequestBuilders.post("/customer/signin/token")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(signInForm)))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.errorCode").value("LOGIN_FAIL"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("일치하는 회원정보가 없습니다."));
+
     }
 }
