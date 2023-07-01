@@ -30,7 +30,7 @@ public class SellerController {
 
         String token = authenticationService.signin(SignInForm.toSignInDto(form));
         Map<String, String> response = new HashMap<>();
-        response.put("token", token);
+        response.put("TOKEN", token);
 
         return ResponseEntity.ok().body(response);
     }
