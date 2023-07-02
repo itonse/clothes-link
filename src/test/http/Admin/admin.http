@@ -1,0 +1,3 @@
+### 토큰 유효성 테스트
+GET http://localhost:8080/admin/token/validation
+AUTH-TOKEN:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYWFAbmF2ZXIuY29tIiwianRpIjoiMSIsInJvbGVzIjoiU0VMTEVSIiwiaWF0IjoxNjg4Mjc2MDczLCJleHAiOjE2ODgyODY4NzN9.GnB6-SNQ-dLcY-QY9w0Zklv9BRxBWOdTqb7dDXB01ag

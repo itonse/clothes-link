@@ -1,15 +1,13 @@
 package com.itonse.clotheslink.customer.controller;
 
+import com.itonse.clotheslink.customer.dto.SendMailDto;
 import com.itonse.clotheslink.customer.dto.SignInForm;
 import com.itonse.clotheslink.customer.dto.SignUpForm;
 import com.itonse.clotheslink.customer.dto.SignUpResponse;
 import com.itonse.clotheslink.customer.service.CustomerAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashMap;
@@ -35,5 +33,11 @@ public class CustomerController {
         tokenResponse.put("TOKEN", token);
 
         return ResponseEntity.ok().body(tokenResponse);
+    }
+
+    @PostMapping("/send/email")
+    public ResponseEntity<SendMailDto.Response> sendAuthEmail(@RequestBody @Valid SendMailDto.Request request) {
+
+        return ResponseEntity.ok().body(customerAuthService.sendAuthMail(request));
     }
 }

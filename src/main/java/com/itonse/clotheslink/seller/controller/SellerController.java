@@ -1,9 +1,9 @@
 package com.itonse.clotheslink.seller.controller;
 
+import com.itonse.clotheslink.seller.dto.SendMailDto;
 import com.itonse.clotheslink.seller.dto.SignInForm;
 import com.itonse.clotheslink.seller.dto.SignUpResponse;
 import com.itonse.clotheslink.seller.dto.SignUpForm;
-import com.itonse.clotheslink.seller.dto.TokenUserResponse;
 import com.itonse.clotheslink.seller.service.SellerAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -35,9 +35,9 @@ public class SellerController {
         return ResponseEntity.ok().body(response);
     }
 
-    @GetMapping("/token/validation")
-    public ResponseEntity<TokenUserResponse> validateTokenTest(@RequestHeader(name = "AUTH-TOKEN") String token) {
+    @PostMapping("/send/email")
+    public ResponseEntity<SendMailDto.Response> sendAuthEmail(@RequestBody @Valid SendMailDto.Request request) {
 
-        return ResponseEntity.ok().body(sellerAuthService.validateToken(token));
+        return ResponseEntity.ok().body(sellerAuthService.sendAuthMail(request));
     }
 }

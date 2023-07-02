@@ -1,4 +1,4 @@
-package com.itonse.clotheslink.seller.dto;
+package com.itonse.clotheslink.admin.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
