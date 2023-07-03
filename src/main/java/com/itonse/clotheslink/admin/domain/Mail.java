@@ -1,5 +1,6 @@
 package com.itonse.clotheslink.admin.domain;
 
+import com.itonse.clotheslink.common.UserType;
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,14 +12,19 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @Entity
+@Table(indexes = {
+        @Index(name = "idx_email", columnList = "email"),
+        @Index(name = "idx_userType", columnList = "userType")
+})
 public class Mail {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
     private String email;
+    @Enumerated(EnumType.STRING)
+    private UserType userType;
     private String authCode;
     private boolean verified;
     private LocalDateTime validUntil;

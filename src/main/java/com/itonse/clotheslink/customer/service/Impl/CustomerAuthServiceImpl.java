@@ -79,7 +79,8 @@ public class CustomerAuthServiceImpl implements CustomerAuthService {
 
         String randomKey = RandomStringUtils.randomAlphanumeric(5);
 
-        Optional<Mail> optionalMail = mailRepository.findByEmail(vo.getEmail());
+        Optional<Mail> optionalMail =
+                mailRepository.findByEmailAndUserType(vo.getEmail(), vo.getUserType());
 
         if (optionalMail.isPresent()) {
             Mail existMail = optionalMail.get();
@@ -88,6 +89,7 @@ public class CustomerAuthServiceImpl implements CustomerAuthService {
         } else {
             Mail newMail = Mail.builder()
                     .email(vo.getEmail())
+                    .userType(UserType.CUSTOMER)
                     .authCode(randomKey)
                     .validUntil(LocalDateTime.now().plusMinutes(10))
                     .build();
@@ -95,7 +97,7 @@ public class CustomerAuthServiceImpl implements CustomerAuthService {
         }
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setFrom("noreply@e.clotheslink.com");
+        mailMessage.setFrom("testspring55@gmail.com");
         mailMessage.setTo(vo.getEmail());
         mailMessage.setSubject("[From Clotheslink] 이메일 인증을 위한 인증코드가 발급되었습니다.");
         mailMessage.setText("아래의 인증코드를 복사하여 이메일 인증을 완료해주세요.\n"
