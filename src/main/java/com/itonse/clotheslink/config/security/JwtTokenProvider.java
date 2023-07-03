@@ -66,22 +66,25 @@ public class JwtTokenProvider {
 
     public Authentication getAuthentication(String token) {
         Claims claims = parseClaims(token);
-        String userName = claims.getSubject();
+        String userName = claims.getSubject();      // userEmail
 
         Collection<? extends GrantedAuthority> authorities =
                 Arrays.stream(claims.get("roles").toString().split(","))
                         .map(SimpleGrantedAuthority::new)
                         .collect(Collectors.toList());
 
-        UserDetails userDetails = new User(userName, "", authorities);
+        UserDetails userDetails = new User(userName, "", authorities);      // 사용자 이름(email) 과 권한정보로 객체 생성
 
-        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());      // 인증된 사용자의 정보와 권한정보로 객체 생성
     }
 
     public UserVo getUserInfo(String token) {
+        Claims claims = parseClaims(token);
+
         return UserVo.builder()
-                .email(parseClaims(token).getSubject())
-                .id(Long.valueOf(parseClaims(token).getId()))
+                .userType(UserType.valueOf(claims.get("roles").toString()))
+                .email(claims.getSubject())
+                .id(Long.valueOf(claims.getId()))
                 .build();
     }
 

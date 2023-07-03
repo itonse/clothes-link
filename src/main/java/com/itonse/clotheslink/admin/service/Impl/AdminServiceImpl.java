@@ -22,6 +22,7 @@ public class AdminServiceImpl implements AdminService {
             UserVo vo = jwtTokenProvider.getUserInfo(token);
 
             return TokenUserResponse.builder()
+                    .userType(vo.getUserType())
                     .id(vo.getId())
                     .email(vo.getEmail())
                     .build();
