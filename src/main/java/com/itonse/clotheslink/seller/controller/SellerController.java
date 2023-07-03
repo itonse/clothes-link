@@ -1,8 +1,7 @@
 package com.itonse.clotheslink.seller.controller;
 
-import com.itonse.clotheslink.seller.dto.SendMailDto;
 import com.itonse.clotheslink.seller.dto.SignInForm;
-import com.itonse.clotheslink.seller.dto.SignUpResponse;
+import com.itonse.clotheslink.seller.dto.UserInfoResponse;
 import com.itonse.clotheslink.seller.dto.SignUpForm;
 import com.itonse.clotheslink.seller.service.SellerAuthService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +19,7 @@ public class SellerController {
     private final SellerAuthService sellerAuthService;
 
     @PostMapping("/signup")
-    public ResponseEntity<SignUpResponse> signUp(@RequestBody @Valid SignUpForm form) {
+    public ResponseEntity<UserInfoResponse> signUp(@RequestBody @Valid SignUpForm form) {
 
         return ResponseEntity.ok().body(sellerAuthService.signUp(SignUpForm.toSignUpDto(form)));
     }
@@ -36,8 +35,8 @@ public class SellerController {
     }
 
     @PostMapping("/send/email")
-    public ResponseEntity<SendMailDto.Response> sendAuthEmail(@RequestBody @Valid SendMailDto.Request request) {
+    public ResponseEntity<UserInfoResponse> sendAuthEmail(@RequestHeader(name = "Authorization") String token) {
 
-        return ResponseEntity.ok().body(sellerAuthService.sendAuthMail(request));
+        return ResponseEntity.ok().body(sellerAuthService.sendAuthMail(token));
     }
 }

@@ -3,8 +3,8 @@ POST http://localhost:8080/customer/signup
 Content-Type: application/json
 
 {
-  "email": "bbb@naver.com",
-  "name" : "김일번",
+  "email": "kkk@naver.com",
+  "name" : "최삼번",
   "password": "11223344",
   "phone": "010-1111-2222"
 }
@@ -14,15 +14,10 @@ POST http://localhost:8080/customer/signin/token
 Content-Type: application/json
 
 {
-  "email": "bbb@naver.com",
+  "email": "kkk@naver.com",
   "password": "11223344"
 }
 
 ### Customer sendAuthMail
 POST http://localhost:8080/customer/send/email
-Content-Type: application/json
-
-{
-  "email": "bbb@naver.com",
-  "password": "11223344"
-}
+Authorization:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnb3ZsMmRuanNAbmF2ZXIuY29tIiwianRpIjoiMiIsInJvbGVzIjoiQ1VTVE9NRVIiLCJpYXQiOjE2ODgzNjAwMTAsImV4cCI6MTY4ODM3MDgxMH0.-weetZPEyKjXQB1YoEWUnv1Sj_GQB7pbOrlNG2SWnf4

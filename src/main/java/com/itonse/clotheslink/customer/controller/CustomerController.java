@@ -1,9 +1,8 @@
 package com.itonse.clotheslink.customer.controller;
 
-import com.itonse.clotheslink.customer.dto.SendMailDto;
 import com.itonse.clotheslink.customer.dto.SignInForm;
 import com.itonse.clotheslink.customer.dto.SignUpForm;
-import com.itonse.clotheslink.customer.dto.SignUpResponse;
+import com.itonse.clotheslink.customer.dto.UserInfoResponse;
 import com.itonse.clotheslink.customer.service.CustomerAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +20,10 @@ public class CustomerController {
     private final CustomerAuthService customerAuthService;
 
     @PostMapping("/signup")
-    public ResponseEntity<SignUpResponse> signUp(@RequestBody @Valid SignUpForm form) {
+    public ResponseEntity<UserInfoResponse> signUp(@RequestBody @Valid SignUpForm form) {
 
-        return ResponseEntity.ok().body(customerAuthService.signUp(SignUpForm.toSignUpDto(form)));
+        return ResponseEntity.ok()
+                .body(customerAuthService.signUp(SignUpForm.toSignUpDto(form)));
     }
 
     @PostMapping("/signin/token")
@@ -36,8 +36,9 @@ public class CustomerController {
     }
 
     @PostMapping("/send/email")
-    public ResponseEntity<SendMailDto.Response> sendAuthEmail(@RequestBody @Valid SendMailDto.Request request) {
+    public ResponseEntity<UserInfoResponse> sendAuthEmail(
+            @RequestHeader(name = "Authorization") String token) {
 
-        return ResponseEntity.ok().body(customerAuthService.sendAuthMail(request));
+        return ResponseEntity.ok().body(customerAuthService.sendAuthMail(token));
     }
 }

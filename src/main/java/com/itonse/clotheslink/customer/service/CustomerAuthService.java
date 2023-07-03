@@ -1,15 +1,14 @@
 package com.itonse.clotheslink.customer.service;
 
-import com.itonse.clotheslink.customer.dto.SendMailDto;
 import com.itonse.clotheslink.customer.dto.SignInDto;
 import com.itonse.clotheslink.customer.dto.SignUpDto;
-import com.itonse.clotheslink.customer.dto.SignUpResponse;
+import com.itonse.clotheslink.customer.dto.UserInfoResponse;
 
 public interface CustomerAuthService {
 
-    SignUpResponse signUp(SignUpDto dto);
+    UserInfoResponse signUp(SignUpDto dto);
 
     String signIn(SignInDto dto);
 
-    SendMailDto.Response sendAuthMail(SendMailDto.Request request);
+    UserInfoResponse sendAuthMail(String token);
 }

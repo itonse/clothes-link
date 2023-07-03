@@ -3,12 +3,12 @@ package com.itonse.clotheslink.customer.service.Impl;
 import com.itonse.clotheslink.admin.domain.Mail;
 import com.itonse.clotheslink.admin.repository.MailRepository;
 import com.itonse.clotheslink.common.UserType;
+import com.itonse.clotheslink.common.UserVo;
 import com.itonse.clotheslink.config.security.JwtTokenProvider;
 import com.itonse.clotheslink.customer.domain.Customer;
-import com.itonse.clotheslink.customer.dto.SendMailDto;
 import com.itonse.clotheslink.customer.dto.SignInDto;
 import com.itonse.clotheslink.customer.dto.SignUpDto;
-import com.itonse.clotheslink.customer.dto.SignUpResponse;
+import com.itonse.clotheslink.customer.dto.UserInfoResponse;
 import com.itonse.clotheslink.customer.repository.CustomerRepository;
 import com.itonse.clotheslink.customer.service.CustomerAuthService;
 import com.itonse.clotheslink.exception.CustomException;
@@ -35,7 +35,7 @@ public class CustomerAuthServiceImpl implements CustomerAuthService {
     private final JavaMailSender javaMailSender;
 
     @Override
-    public SignUpResponse signUp(SignUpDto dto) {
+    public UserInfoResponse signUp(SignUpDto dto) {
 
         customerRepository.findByEmail(dto.getEmail()).ifPresent(e -> {
             throw new CustomException(ALREADY_REGISTERED_CUSTOMER);
@@ -45,7 +45,7 @@ public class CustomerAuthServiceImpl implements CustomerAuthService {
 
         customerRepository.save(customer);
 
-        return SignUpResponse.builder()
+        return UserInfoResponse.builder()
                 .id(customer.getId())
                 .email(customer.getEmail())
                 .build();
@@ -63,9 +63,14 @@ public class CustomerAuthServiceImpl implements CustomerAuthService {
 
     @Override
     @Transactional
-    public SendMailDto.Response sendAuthMail(SendMailDto.Request request) {
-        Customer customer = customerRepository
-                .findByEmailAndPassword(request.getEmail(), request.getPassword())
+    public UserInfoResponse sendAuthMail(String token) {
+        UserVo vo = jwtTokenProvider.getUserInfo(token);
+
+        if (!vo.getUserType().equals(UserType.CUSTOMER)) {
+            throw new CustomException(MISMATCH_USER_INFO);
+        }
+
+        Customer customer = customerRepository.findByEmail(vo.getEmail())
                 .orElseThrow(() -> new CustomException(NOT_FOUND_USER));
 
         if (customer.isAuthenticated()) {
@@ -74,7 +79,7 @@ public class CustomerAuthServiceImpl implements CustomerAuthService {
 
         String randomKey = RandomStringUtils.randomAlphanumeric(5);
 
-        Optional<Mail> optionalMail = mailRepository.findByEmail(request.getEmail());
+        Optional<Mail> optionalMail = mailRepository.findByEmail(vo.getEmail());
 
         if (optionalMail.isPresent()) {
             Mail existMail = optionalMail.get();
@@ -82,16 +87,16 @@ public class CustomerAuthServiceImpl implements CustomerAuthService {
             existMail.setValidUntil(LocalDateTime.now().plusMinutes(10));
         } else {
             Mail newMail = Mail.builder()
-                    .email(request.getEmail())
+                    .email(vo.getEmail())
                     .authCode(randomKey)
-                    .verified(false)
                     .validUntil(LocalDateTime.now().plusMinutes(10))
                     .build();
+            mailRepository.save(newMail);
         }
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setFrom("noreply@e.clotheslink.com");
-        mailMessage.setTo(request.getEmail());
+        mailMessage.setTo(vo.getEmail());
         mailMessage.setSubject("[From Clotheslink] 이메일 인증을 위한 인증코드가 발급되었습니다.");
         mailMessage.setText("아래의 인증코드를 복사하여 이메일 인증을 완료해주세요.\n"
                 + "인증코드: " + randomKey + "\n"
@@ -99,8 +104,9 @@ public class CustomerAuthServiceImpl implements CustomerAuthService {
 
         javaMailSender.send(mailMessage);
 
-        return SendMailDto.Response.builder()
-                .email(request.getEmail())
+        return UserInfoResponse.builder()
+                .id(vo.getId())
+                .email(vo.getEmail())
                 .build();
     }
 }
