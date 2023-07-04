@@ -41,6 +41,7 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public Seller findSellerByToken(String token) {
+        this.validateToken(token);
 
         UserVo vo = jwtTokenProvider.getUserInfo(token);
 
@@ -56,6 +57,7 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public Customer findCustomerByToken(String token) {
+        this.validateToken(token);
 
         UserVo vo = jwtTokenProvider.getUserInfo(token);
 

@@ -56,6 +56,7 @@ public class MailAuthServiceImpl implements MailAuthService {
     @Override
     @Transactional
     public UserInfo sendMail(String token) {
+        tokenService.validateToken(token);
 
         if (verifyUserAuth(token)) {
             throw new CustomException(ALREADY_VERIFIED);
