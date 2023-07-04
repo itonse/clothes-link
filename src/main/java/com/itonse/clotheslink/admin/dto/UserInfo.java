@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 @Builder
-public class TokenUserResponse {
+public class UserInfo {
     private UserType userType;
     private Long id;
     private String email;

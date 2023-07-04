@@ -10,5 +10,4 @@ public interface CustomerAuthService {
 
     String signIn(SignInDto dto);
 
-    UserInfoResponse sendAuthMail(String token);
 }

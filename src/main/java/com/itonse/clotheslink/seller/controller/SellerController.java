@@ -33,10 +33,4 @@ public class SellerController {
 
         return ResponseEntity.ok().body(response);
     }
-
-    @PostMapping("/send/email")
-    public ResponseEntity<UserInfoResponse> sendAuthEmail(@RequestHeader(name = "Authorization") String token) {
-
-        return ResponseEntity.ok().body(sellerAuthService.sendAuthMail(token));
-    }
 }
