@@ -18,6 +18,6 @@ Content-Type: application/json
   "password": "11223344"
 }
 
-### 토큰 유효성 테스트
-GET http://localhost:8080/seller/token/validation
-AUTH-TOKEN:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYWFAbmF2ZXIuY29tIiwianRpIjoiMSIsInJvbGVzIjoiU0VMTEVSIiwiaWF0IjoxNjg4MDQ0MzQxLCJleHAiOjE2ODgwNTUxNDF9.-n-X4Odz02k00Sfytp3kUA6HQq7pqWHLlxCSzJH_5so
+### Seller sendAuthMail
+POST http://localhost:8080/seller/send/email
+Authorization:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnb3ZsMmRuanNAbmF2ZXIuY29tIiwianRpIjoiMiIsInJvbGVzIjoiU0VMTEVSIiwiaWF0IjoxNjg4Mzg4NTQwLCJleHAiOjE2ODgzOTkzNDB9.n_Sw3rRbX4r_Rdcqqt8ucfLn6CIzPFz6iHRRI1_YdFk
