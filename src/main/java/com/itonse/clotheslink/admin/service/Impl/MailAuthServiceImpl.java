@@ -5,13 +5,13 @@ import com.itonse.clotheslink.admin.dto.UserInfo;
 import com.itonse.clotheslink.admin.repository.MailRepository;
 import com.itonse.clotheslink.admin.service.MailAuthService;
 import com.itonse.clotheslink.admin.service.TokenService;
-import com.itonse.clotheslink.common.UserType;
-import com.itonse.clotheslink.common.UserVo;
+import com.itonse.clotheslink.common.*;
+import com.itonse.clotheslink.common.strategy.MailAuthContext;
+import com.itonse.clotheslink.common.strategy.CustomerStrategy;
+import com.itonse.clotheslink.common.strategy.SellerStrategy;
 import com.itonse.clotheslink.config.security.JwtTokenProvider;
-import com.itonse.clotheslink.customer.domain.Customer;
 import com.itonse.clotheslink.exception.CustomException;
 import com.itonse.clotheslink.exception.ErrorCode;
-import com.itonse.clotheslink.seller.domain.Seller;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.mail.SimpleMailMessage;
@@ -33,21 +33,22 @@ public class MailAuthServiceImpl implements MailAuthService {
     private final TokenService tokenService;
     private final JavaMailSender javaMailSender;
 
+    private final SellerStrategy sellerStrategy;
+    private final CustomerStrategy customerStrategy;
+    private final MailAuthContext mailAuthContext;
+
     @Override
     public boolean verifyUserAuth(String token) {
+        UserType userType = jwtTokenProvider.getUserInfo(token).getUserType();
 
-        UserVo vo = jwtTokenProvider.getUserInfo(token);
-
-        if (vo.getUserType().equals(UserType.SELLER)) {
-            Seller seller = tokenService.findSellerByToken(token);
-
-            return seller.isAuthenticated() ? true : false;
+        if (userType.equals(UserType.SELLER)) {
+            mailAuthContext.setUserTypeStrategy(sellerStrategy);
+            return mailAuthContext.isAuthenticated(token);
         }
 
-        if (vo.getUserType().equals(UserType.CUSTOMER)) {
-            Customer customer = tokenService.findCustomerByToken(token);
-
-            return customer.isAuthenticated() ? true : false;
+        if (userType.equals(UserType.CUSTOMER)) {
+            mailAuthContext.setUserTypeStrategy(customerStrategy);
+            return mailAuthContext.isAuthenticated(token);
         }
 
         throw new CustomException(ErrorCode.INVALID_TOKEN);
