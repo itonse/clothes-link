@@ -1,24 +1,29 @@
 package com.itonse.clotheslink.admin.controller;
 
-import com.itonse.clotheslink.admin.service.AdminService;
-import com.itonse.clotheslink.admin.dto.TokenUserResponse;
+import com.itonse.clotheslink.admin.service.MailAuthService;
+import com.itonse.clotheslink.admin.service.TokenService;
+import com.itonse.clotheslink.admin.dto.UserInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/admin")
 @RequiredArgsConstructor
 @RestController
 public class AdminController {
 
-    private final AdminService adminService;
+    private final TokenService tokenService;
+    private final MailAuthService mailAuthService;
 
     @GetMapping("/token/validation")
-    public ResponseEntity<TokenUserResponse> validateTokenTest(@RequestHeader(name = "AUTH-TOKEN") String token) {
+    public ResponseEntity<UserInfo> validateTokenTest(@RequestHeader(name = "Authorization") String token) {
 
-        return ResponseEntity.ok().body(adminService.validateToken(token));
+        return ResponseEntity.ok().body(tokenService.validateToken(token));
+    }
+
+    @PostMapping("/auth/mail")
+    public ResponseEntity<UserInfo> sendMail(@RequestHeader(name = "Authorization") String token) {
+
+        return ResponseEntity.ok().body(mailAuthService.sendMail(token));
     }
 }

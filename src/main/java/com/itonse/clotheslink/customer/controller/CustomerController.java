@@ -35,10 +35,4 @@ public class CustomerController {
         return ResponseEntity.ok().body(tokenResponse);
     }
 
-    @PostMapping("/send/email")
-    public ResponseEntity<UserInfoResponse> sendAuthEmail(
-            @RequestHeader(name = "Authorization") String token) {
-
-        return ResponseEntity.ok().body(customerAuthService.sendAuthMail(token));
-    }
 }

@@ -27,5 +27,5 @@ public class Mail {
     private UserType userType;
     private String authCode;
     private boolean verified;
-    private LocalDateTime validUntil;
+    private LocalDateTime expiredAt;
 }

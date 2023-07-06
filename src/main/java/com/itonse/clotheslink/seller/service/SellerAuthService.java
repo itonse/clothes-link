@@ -9,5 +9,4 @@ public interface SellerAuthService {
 
     String signin(SignInDto dto);
 
-    UserInfoResponse sendAuthMail(String token);
 }

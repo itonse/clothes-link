@@ -17,7 +17,3 @@ Content-Type: application/json
   "email": "aaa@naver.com",
   "password": "11223344"
 }
-
-### Seller sendAuthMail
-POST http://localhost:8080/seller/send/email
-Authorization:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnb3ZsMmRuanNAbmF2ZXIuY29tIiwianRpIjoiMiIsInJvbGVzIjoiU0VMTEVSIiwiaWF0IjoxNjg4Mzg4NTQwLCJleHAiOjE2ODgzOTkzNDB9.n_Sw3rRbX4r_Rdcqqt8ucfLn6CIzPFz6iHRRI1_YdFk
