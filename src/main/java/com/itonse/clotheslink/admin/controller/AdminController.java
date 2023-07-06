@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/admin")
 @RequiredArgsConstructor
 @RestController
 public class AdminController {
@@ -22,8 +21,8 @@ public class AdminController {
     }
 
     @PostMapping("/auth/mail")
-    public ResponseEntity<UserInfo> sendMail(@RequestHeader(name = "Authorization") String token) {
+    public ResponseEntity<UserInfo> sendAuthMail(@RequestHeader(name = "Authorization") String token) {
 
-        return ResponseEntity.ok().body(mailAuthService.sendMail(token));
+        return ResponseEntity.ok().body(mailAuthService.processSendAuthMail(token));
     }
 }
