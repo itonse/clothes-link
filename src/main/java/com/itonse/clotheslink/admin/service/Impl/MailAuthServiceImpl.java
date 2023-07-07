@@ -6,11 +6,8 @@ import com.itonse.clotheslink.admin.service.MailAuthService;
 import com.itonse.clotheslink.admin.service.TokenService;
 import com.itonse.clotheslink.common.*;
 import com.itonse.clotheslink.common.strategy.MailAuthContext;
-import com.itonse.clotheslink.common.strategy.CustomerStrategy;
-import com.itonse.clotheslink.common.strategy.SellerStrategy;
 import com.itonse.clotheslink.config.security.JwtTokenProvider;
 import com.itonse.clotheslink.exception.CustomException;
-import com.itonse.clotheslink.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.mail.SimpleMailMessage;
@@ -32,22 +29,12 @@ public class MailAuthServiceImpl implements MailAuthService {
     private final TokenService tokenService;
     private final JavaMailSender javaMailSender;
 
-    private final SellerStrategy sellerStrategy;
-    private final CustomerStrategy customerStrategy;
     private final MailAuthContext mailAuthContext;
 
     @Override
     public boolean verifyUserAuth(UserType userType, String token) {
 
-        if (userType.equals(UserType.SELLER)) {
-            mailAuthContext.setUserTypeStrategy(sellerStrategy);
-        } else if (userType.equals(UserType.CUSTOMER)) {
-            mailAuthContext.setUserTypeStrategy(customerStrategy);
-        } else {
-            throw new CustomException(ErrorCode.INVALID_TOKEN);
-        }
-
-        return mailAuthContext.isAuthenticated(token);
+        return mailAuthContext.isAuthenticatedByType(userType, token);
     }
 
     @Override

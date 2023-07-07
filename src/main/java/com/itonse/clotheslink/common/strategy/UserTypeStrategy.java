@@ -1,8 +1,15 @@
 package com.itonse.clotheslink.common.strategy;
 
-public interface UserTypeStrategy {
+import com.itonse.clotheslink.common.UserType;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 
+@RequiredArgsConstructor
+@Getter
+public abstract class UserTypeStrategy {
 
-    boolean isAuthenticated(String token);
+    protected final UserType userType;
+
+    protected abstract boolean isAuthenticated(String token);
 }
