@@ -4,6 +4,7 @@ import com.itonse.clotheslink.admin.service.TokenService;
 import com.itonse.clotheslink.common.UserType;
 import com.itonse.clotheslink.seller.domain.Seller;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class SellerStrategy extends UserTypeStrategy {
@@ -19,5 +20,12 @@ public class SellerStrategy extends UserTypeStrategy {
     protected boolean isAuthenticated(String token) {
         Seller seller = tokenService.findSellerByToken(token);
         return seller.isAuthenticated();
+    }
+
+    @Override
+    @Transactional
+    protected void modifyAuthStatus(String token) {
+        Seller seller = tokenService.findSellerByToken(token);
+        seller.setAuthenticated(true);
     }
 }

@@ -1,7 +1,11 @@
 ### Token Validity Test
 GET http://localhost:8080/token/validation
-Authorization:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYWFAbmF2ZXIuY29tIiwianRpIjoiMSIsInJvbGVzIjoiU0VMTEVSIiwiaWF0IjoxNjg4NjMyNTI0LCJleHAiOjE2ODg2NDMzMjR9.Cl1pKyn3GzQgXLVGNDsf_dydhj_PQTFHMP0cfetP5U4
+Authorization:
 
 ### Send Auth-Mail
 POST http://localhost:8080/auth/mail
-Authorization:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYWFAbmF2ZXIuY29tIiwianRpIjoiMSIsInJvbGVzIjoiU0VMTEVSIiwiaWF0IjoxNjg4NjMyNTI0LCJleHAiOjE2ODg2NDMzMjR9.Cl1pKyn3GzQgXLVGNDsf_dydhj_PQTFHMP0cfetP5U4
+Authorization:
+
+### Confirm Verification
+PATCH http://localhost:8080/user/auth-status?code=jsErt
+Authorization:

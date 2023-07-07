@@ -20,13 +20,21 @@ public class MailAuthContext {
 
     /**
      * userTypeStrategies 리스트에서 userType이 일치하는
-     * Strategy 인스턴스를 찾아 isAuthenticated 메소드 실행
+     * Strategy 인스턴스를 찾아 해당 메소드 실행
      */
-    public boolean isAuthenticatedByType(UserType userType, String token) {
+    public boolean isAuthenticated(UserType userType, String token) {
         return userTypeStrategies.stream()
                 .filter(strategy -> strategy.getUserType() == userType)
                 .findFirst()
                 .orElseThrow(() -> new CustomException(NOT_FOUND_USER_TYPE))
                 .isAuthenticated(token);
+    }
+
+    public void modifyAuthStatus(UserType userType, String token) {
+        userTypeStrategies.stream()
+                .filter(strategy -> strategy.getUserType() == userType)
+                .findFirst()
+                .orElseThrow(() -> new CustomException(NOT_FOUND_USER_TYPE))
+                .modifyAuthStatus(token);
     }
 }

@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static com.itonse.clotheslink.exception.ErrorCode.ALREADY_VERIFIED;
+import static com.itonse.clotheslink.exception.ErrorCode.*;
 
 @RequiredArgsConstructor
 @Service
@@ -34,7 +34,7 @@ public class MailAuthServiceImpl implements MailAuthService {
     @Override
     public boolean verifyUserAuth(UserType userType, String token) {
 
-        return mailAuthContext.isAuthenticatedByType(userType, token);
+        return mailAuthContext.isAuthenticated(userType, token);
     }
 
     @Override
@@ -99,4 +99,41 @@ public class MailAuthServiceImpl implements MailAuthService {
         Mail mail = manageMail(vo);
         return sendMail(vo, mail);
     }
+
+    @Override
+    @Transactional
+    public UserVo confirmVerification(String token, String authCode) {
+        tokenService.validateToken(token);
+
+        UserVo vo = jwtTokenProvider.getUserInfo(token);
+
+        if (verifyUserAuth(vo.getUserType(), token)) {
+            throw new CustomException(ALREADY_VERIFIED);
+        }
+
+        Mail mail = mailRepository
+                .findByEmailAndUserType(vo.getEmail(), vo.getUserType())
+                .orElseThrow(() -> new CustomException(INITIATE_EMAIL_REQUEST));
+
+        verifyCode(mail, authCode);
+
+        mailRepository.delete(mail);
+
+        mailAuthContext.modifyAuthStatus(vo.getUserType(), token);
+
+        return vo;
+    }
+
+    @Override
+    public void verifyCode(Mail mail, String authCode) {
+        if (mail.getExpiredAt().isBefore(LocalDateTime.now())) {
+            mailRepository.delete(mail);
+            throw new CustomException(EXPIRED_AUTH_CODE);
+        }
+
+        if(!authCode.equals(mail.getAuthCode())) {
+            throw new CustomException(INVALID_AUTH_CODE);
+        }
+    }
+
 }

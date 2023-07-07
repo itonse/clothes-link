@@ -14,7 +14,10 @@ public enum ErrorCode {
     INVALID_TOKEN(HttpStatus.BAD_REQUEST, "유효하지 않거나 잘못된 토큰입니다."),
     ALREADY_VERIFIED(HttpStatus.BAD_REQUEST, "이미 이메일 인증을 완료하였습니다."),
     USER_TYPE_MISMATCH(HttpStatus.BAD_REQUEST, "유저 타입이 일치하지 않습니다."),
-    NOT_FOUND_USER_TYPE(HttpStatus.BAD_REQUEST, "존재하지 않는 유저타입 입니다.");
+    NOT_FOUND_USER_TYPE(HttpStatus.BAD_REQUEST, "존재하지 않는 유저타입 입니다."),
+    INVALID_AUTH_CODE(HttpStatus.BAD_REQUEST, "잘못된 인증코드 입니다."),
+    EXPIRED_AUTH_CODE(HttpStatus.BAD_REQUEST, "만료된 인증코드 입니다."),
+    INITIATE_EMAIL_REQUEST(HttpStatus.BAD_REQUEST, "먼저 이메일 요청을 진행해주세요.");
 
     private final HttpStatus httpStatus;
     private final String message;

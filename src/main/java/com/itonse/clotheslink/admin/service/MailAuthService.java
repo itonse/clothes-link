@@ -15,4 +15,8 @@ public interface MailAuthService {
     UserVo sendMail(UserVo vo, Mail mail);
 
     UserVo processSendAuthMail(String token);
+
+    UserVo confirmVerification(String token, String authCode);
+
+    void verifyCode(Mail mail, String authCode);
 }
