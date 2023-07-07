@@ -1,7 +1,6 @@
 package com.itonse.clotheslink.admin.service.Impl;
 
 import com.itonse.clotheslink.admin.domain.Mail;
-import com.itonse.clotheslink.admin.dto.UserInfo;
 import com.itonse.clotheslink.admin.repository.MailRepository;
 import com.itonse.clotheslink.admin.service.MailAuthService;
 import com.itonse.clotheslink.admin.service.TokenService;
@@ -92,7 +91,7 @@ public class MailAuthServiceImpl implements MailAuthService {
     }
 
     @Override
-    public UserInfo sendMail(UserVo vo, Mail mail) {
+    public UserVo sendMail(UserVo vo, Mail mail) {
         // 인증메일 내용 작성
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(vo.getEmail());
@@ -103,16 +102,12 @@ public class MailAuthServiceImpl implements MailAuthService {
 
         javaMailSender.send(mailMessage);
 
-        return UserInfo.builder()
-                .userType(vo.getUserType())
-                .id(vo.getId())
-                .email(vo.getEmail())
-                .build();
+        return vo;
     }
 
     @Override
     @Transactional
-    public UserInfo processSendAuthMail(String token) {
+    public UserVo processSendAuthMail(String token) {
         UserVo vo = verifyEmailSending(token);
         Mail mail = manageMail(vo);
         return sendMail(vo, mail);

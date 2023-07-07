@@ -7,7 +7,6 @@ import com.itonse.clotheslink.config.security.JwtTokenProvider;
 import com.itonse.clotheslink.customer.domain.Customer;
 import com.itonse.clotheslink.customer.repository.CustomerRepository;
 import com.itonse.clotheslink.exception.CustomException;
-import com.itonse.clotheslink.admin.dto.UserInfo;
 import com.itonse.clotheslink.seller.domain.Seller;
 import com.itonse.clotheslink.seller.repository.SellerRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,16 +23,9 @@ public class TokenServiceImpl implements TokenService {
     private final CustomerRepository customerRepository;
 
     @Override
-    public UserInfo validateToken(String token) {
+    public UserVo validateToken(String token) {
         try {
-            UserVo vo = jwtTokenProvider.getUserInfo(token);
-
-            return UserInfo.builder()
-                    .userType(vo.getUserType())
-                    .id(vo.getId())
-                    .email(vo.getEmail())
-                    .build();
-
+            return jwtTokenProvider.getUserInfo(token);
         } catch (Exception e) {
             throw new CustomException(INVALID_TOKEN);
         }
