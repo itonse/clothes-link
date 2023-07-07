@@ -12,4 +12,6 @@ public abstract class UserTypeStrategy {
     protected final UserType userType;
 
     protected abstract boolean isAuthenticated(String token);
+
+    protected abstract void modifyAuthStatus(String token);
 }

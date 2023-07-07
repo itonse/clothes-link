@@ -25,4 +25,11 @@ public class AdminController {
 
         return ResponseEntity.ok().body(mailAuthService.processSendAuthMail(token));
     }
+
+    @PatchMapping("user/auth-status")
+    public ResponseEntity<?> verifyCode(@RequestHeader(name = "Authorization") String token,
+                                        @RequestParam("code") String authCode) {
+
+        return ResponseEntity.ok().body(mailAuthService.confirmVerification(token, authCode));
+    }
 }
