@@ -1,17 +1,13 @@
 package com.itonse.clotheslink.admin.service.Impl;
 
 import com.itonse.clotheslink.admin.domain.Mail;
-import com.itonse.clotheslink.admin.dto.UserInfo;
 import com.itonse.clotheslink.admin.repository.MailRepository;
 import com.itonse.clotheslink.admin.service.MailAuthService;
 import com.itonse.clotheslink.admin.service.TokenService;
-import com.itonse.clotheslink.common.UserType;
-import com.itonse.clotheslink.common.UserVo;
+import com.itonse.clotheslink.common.*;
+import com.itonse.clotheslink.common.strategy.MailAuthContext;
 import com.itonse.clotheslink.config.security.JwtTokenProvider;
-import com.itonse.clotheslink.customer.domain.Customer;
 import com.itonse.clotheslink.exception.CustomException;
-import com.itonse.clotheslink.exception.ErrorCode;
-import com.itonse.clotheslink.seller.domain.Seller;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.mail.SimpleMailMessage;
@@ -33,48 +29,43 @@ public class MailAuthServiceImpl implements MailAuthService {
     private final TokenService tokenService;
     private final JavaMailSender javaMailSender;
 
+    private final MailAuthContext mailAuthContext;
+
     @Override
-    public boolean verifyUserAuth(String token) {
+    public boolean verifyUserAuth(UserType userType, String token) {
+
+        return mailAuthContext.isAuthenticatedByType(userType, token);
+    }
+
+    @Override
+    public UserVo verifyEmailSending(String token) {
+        tokenService.validateToken(token);
 
         UserVo vo = jwtTokenProvider.getUserInfo(token);
 
-        if (vo.getUserType().equals(UserType.SELLER)) {
-            Seller seller = tokenService.findSellerByToken(token);
-
-            return seller.isAuthenticated() ? true : false;
+        if (verifyUserAuth(vo.getUserType(), token)) {
+            throw new CustomException(ALREADY_VERIFIED);
         }
 
-        if (vo.getUserType().equals(UserType.CUSTOMER)) {
-            Customer customer = tokenService.findCustomerByToken(token);
-
-            return customer.isAuthenticated() ? true : false;
-        }
-
-        throw new CustomException(ErrorCode.INVALID_TOKEN);
+        return vo;
     }
 
     @Override
     @Transactional
-    public UserInfo sendMail(String token) {
-        tokenService.validateToken(token);
-
-        if (verifyUserAuth(token)) {
-            throw new CustomException(ALREADY_VERIFIED);
-        }
+    public Mail manageMail(UserVo vo) {
 
         String randomKey = RandomStringUtils.randomAlphanumeric(5);
 
-        UserVo vo = jwtTokenProvider.getUserInfo(token);
-
-
+        // 유저 정보에 해당하는 Mail 객체 찾기
         Optional<Mail> optionalMail
                 = mailRepository.findByEmailAndUserType(vo.getEmail(), vo.getUserType());
 
-        if (optionalMail.isPresent()) {
+        if (optionalMail.isPresent()) {        // Mail 객체가 존재한다면, 객체 정보를 업데이트
             Mail existMail = optionalMail.get();
             existMail.setAuthCode(randomKey);
             existMail.setExpiredAt(LocalDateTime.now().plusMinutes(30));
-        } else {
+            return existMail;
+        } else {        // 존재하지 않는다면 새 Mail 객체를 생성하여 저장
             Mail newMail = Mail.builder()
                     .userType(vo.getUserType())
                     .authCode(randomKey)
@@ -82,21 +73,30 @@ public class MailAuthServiceImpl implements MailAuthService {
                     .expiredAt(LocalDateTime.now().plusMinutes(30))
                     .build();
             mailRepository.save(newMail);
+            return newMail;
         }
+    }
 
+    @Override
+    public UserVo sendMail(UserVo vo, Mail mail) {
+        // 인증메일 내용 작성
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(vo.getEmail());
         mailMessage.setSubject("[From Clotheslink] 이메일 인증을 위한 인증코드가 발급되었습니다.");
         mailMessage.setText("아래의 인증코드를 복사하여 이메일 인증을 완료해주세요.\n"
-                + "인증코드: " + randomKey + "\n"
+                + "인증코드: " + mail.getAuthCode() + "\n"
                 + "개인정보 보호를 위해 이메일 인증코드는 30분간 유효합니다.");
 
         javaMailSender.send(mailMessage);
 
-        return UserInfo.builder()
-                .userType(vo.getUserType())
-                .id(vo.getId())
-                .email(vo.getEmail())
-                .build();
+        return vo;
+    }
+
+    @Override
+    @Transactional
+    public UserVo processSendAuthMail(String token) {
+        UserVo vo = verifyEmailSending(token);
+        Mail mail = manageMail(vo);
+        return sendMail(vo, mail);
     }
 }
