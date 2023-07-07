@@ -24,10 +24,10 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class JwtTokenProvider {
+    static final long TOKEN_VALID_TIME = 1000L * 60 * 60 * 3;
 
     @Value("${jwt.secret}")
     private String secretKey = "secretKey";
-    private final long tokenValidTime = 1000L * 60 * 60 * 3;
 
     @PostConstruct
     protected void init() {
@@ -42,14 +42,12 @@ public class JwtTokenProvider {
         claims.put("roles", userType);
         Date now = new Date();
 
-        String token = Jwts.builder()
+        return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + tokenValidTime))
+                .setExpiration(new Date(now.getTime() + TOKEN_VALID_TIME))
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
-
-        return token;
     }
 
     public boolean validateToken(String token) {
@@ -75,7 +73,8 @@ public class JwtTokenProvider {
 
         UserDetails userDetails = new User(userName, "", authorities);      // 사용자 이름(email) 과 권한정보로 객체 생성
 
-        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());      // 인증된 사용자의 정보와 권한정보로 객체 생성
+        return new UsernamePasswordAuthenticationToken(
+                userDetails, "", userDetails.getAuthorities());      // 인증된 사용자의 정보와 권한정보로 객체 생성
     }
 
     public UserVo getUserInfo(String token) {

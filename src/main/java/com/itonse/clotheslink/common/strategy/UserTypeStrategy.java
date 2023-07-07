@@ -4,7 +4,6 @@ import com.itonse.clotheslink.common.UserType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-
 @RequiredArgsConstructor
 @Getter
 public abstract class UserTypeStrategy {

@@ -1,6 +1,5 @@
 package com.itonse.clotheslink.customer.service.Impl;
 
-import com.itonse.clotheslink.admin.repository.MailRepository;
 import com.itonse.clotheslink.common.UserType;
 import com.itonse.clotheslink.config.security.JwtTokenProvider;
 import com.itonse.clotheslink.customer.domain.Customer;
@@ -13,7 +12,6 @@ import com.itonse.clotheslink.exception.CustomException;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.mail.javamail.JavaMailSender;
 
 import static com.itonse.clotheslink.exception.ErrorCode.*;
 
@@ -23,8 +21,6 @@ public class CustomerAuthServiceImpl implements CustomerAuthService {
 
     private final CustomerRepository customerRepository;
     private final JwtTokenProvider jwtTokenProvider;
-    private final MailRepository mailRepository;
-    private final JavaMailSender javaMailSender;
 
     @Override
     public UserInfoResponse signUp(SignUpDto dto) {
@@ -34,7 +30,6 @@ public class CustomerAuthServiceImpl implements CustomerAuthService {
         });
 
         Customer customer = SignUpDto.toCustomerEntity(dto);
-
         customerRepository.save(customer);
 
         return UserInfoResponse.builder()
@@ -45,8 +40,7 @@ public class CustomerAuthServiceImpl implements CustomerAuthService {
 
     @Override
     public String signIn(SignInDto dto) {
-        Customer customer = customerRepository.findByEmailAndPassword(
-                dto.getEmail(), dto.getPassword())
+        Customer customer = customerRepository.findByEmailAndPassword(dto.getEmail(), dto.getPassword())
                         .orElseThrow(() -> new CustomException(LOGIN_FAIL));
 
         return jwtTokenProvider.createToken(

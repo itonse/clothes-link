@@ -15,7 +15,8 @@ public class AdminController {
     private final MailAuthService mailAuthService;
 
     @GetMapping("/token/validation")
-    public ResponseEntity<UserVo> validateTokenTest(@RequestHeader(name = "Authorization") String token) {
+    public ResponseEntity<UserVo> validateTokenTest(
+            @RequestHeader(name = "Authorization") String token) {
 
         return ResponseEntity.ok().body(tokenService.validateToken(token));
     }
@@ -27,7 +28,7 @@ public class AdminController {
     }
 
     @PatchMapping("user/auth-status")
-    public ResponseEntity<?> verifyCode(@RequestHeader(name = "Authorization") String token,
+    public ResponseEntity<UserVo> verifyCode(@RequestHeader(name = "Authorization") String token,
                                         @RequestParam("code") String authCode) {
 
         return ResponseEntity.ok().body(mailAuthService.confirmVerification(token, authCode));

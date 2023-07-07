@@ -69,9 +69,8 @@ class CustomerAuthServiceImplTest {
                 .willReturn(Optional.of(new Customer()));
 
         // when
-        CustomException e = assertThrows(CustomException.class, () -> {
-            customerAuthService.signUp(dto);
-        });
+        CustomException e = assertThrows(CustomException.class,
+                () -> customerAuthService.signUp(dto));
 
         // then
         assertEquals(ALREADY_REGISTERED_CUSTOMER, e.getErrorCode());
@@ -110,12 +109,11 @@ class CustomerAuthServiceImplTest {
                 .willThrow(new CustomException(LOGIN_FAIL));
 
         // when
-        CustomException e = assertThrows(CustomException.class, () -> {
-            customerAuthService.signIn(dto);
-        });
+        CustomException e = assertThrows(CustomException.class,
+                () -> customerAuthService.signIn(dto));
 
         // then
         assertEquals(LOGIN_FAIL, e.getErrorCode());
-        assertEquals("일치하는 회원정보가 없습니다." ,e.getMessage());
+        assertEquals("일치하는 회원정보가 없습니다.", e.getMessage());
     }
 }

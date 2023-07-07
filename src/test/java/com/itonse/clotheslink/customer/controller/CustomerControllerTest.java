@@ -50,7 +50,8 @@ class CustomerControllerTest {
                 .content(objectMapper.writeValueAsString(signUpForm)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("bbb@naver.com"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.email")
+                        .value("bbb@naver.com"));
     }
 
     @Test
@@ -75,7 +76,8 @@ class CustomerControllerTest {
                 .content(objectMapper.writeValueAsString(firstForm)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("bbb@naver.com"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.email")
+                        .value("bbb@naver.com"));
 
         // when
         // then
@@ -83,8 +85,10 @@ class CustomerControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(secondForm)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.errorCode").value("ALREADY_REGISTERED_CUSTOMER"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("이미 가입된 이메일 입니다."));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.errorCode")
+                        .value("ALREADY_REGISTERED_CUSTOMER"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message")
+                        .value("이미 가입된 이메일 입니다."));
     }
 
     @Test
@@ -103,7 +107,8 @@ class CustomerControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(signUpForm)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.jsonPath("$").value("비밀번호는 최소 8자 ~ 최대 20자 이내로 입력해주세요."));
+                .andExpect(MockMvcResultMatchers.jsonPath("$")
+                        .value("비밀번호는 최소 8자 ~ 최대 20자 이내로 입력해주세요."));
     }
 
     @Test
@@ -132,7 +137,8 @@ class CustomerControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(signInForm)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.TOKEN").value(Matchers.notNullValue()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.TOKEN")
+                        .value(Matchers.notNullValue()));
     }
 
     @Test
@@ -149,8 +155,10 @@ class CustomerControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(signInForm)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.errorCode").value("LOGIN_FAIL"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("일치하는 회원정보가 없습니다."));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.errorCode")
+                        .value("LOGIN_FAIL"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message")
+                        .value("일치하는 회원정보가 없습니다."));
 
     }
 }

@@ -1,7 +1,6 @@
 package com.itonse.clotheslink.config.security;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
@@ -14,12 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@RequiredArgsConstructor
 /**
  * 모든 HTTP 요청에 대해 필터링을 한 번씩 수행합니다.
  * 주된 기능은 JWT 토큰의 유효성을 검사하고 인증 정보를 설정하는 것입니다.
  * 만약 권한이 없거나 유효하지 않은 토큰이 있으면 필터링 과정에서 처리됩니다.
  */
+@RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     // Authorization(HEADER): Bearer(PREFIX) + eyJhbGci..(JWT토큰)
@@ -42,7 +41,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             // 유효하지 않은 토큰이거나 토큰이 없는 경우, 해당 요청을 처리하는 스레드의 SecurityContext 초기화 (인증되지 않은 상태로 설정)
             SecurityContextHolder.clearContext();
         }
-
         filterChain.doFilter(request, response);
     }
 
@@ -54,7 +52,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             // Authorization: Bearer eyJhbGci.. 에서 Bearer 를 제외하고 토크값인 eyJhbGci.. 을 반환
             return token.substring(TOKEN_PREFIX.length());
         }
-
         return null;
     }
 }

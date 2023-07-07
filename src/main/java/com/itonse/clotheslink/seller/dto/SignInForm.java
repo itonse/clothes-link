@@ -23,7 +23,6 @@ public class SignInForm {
     @NotBlank(message = "비밀번호는 필수 항목입니다.")
     private String password;
 
-
     public static SignInDto toSignInDto(SignInForm form) {
         return SignInDto.builder()
                 .email(form.getEmail())

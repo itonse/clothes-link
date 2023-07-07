@@ -66,9 +66,8 @@ class SellerAuthServiceImplTest {
                 .willReturn(Optional.of(new Seller()));
 
         // when
-        CustomException exception = assertThrows(CustomException.class, () -> {
-            sellerAuthService.signUp(dto);
-        });
+        CustomException exception = assertThrows(CustomException.class,
+                () -> sellerAuthService.signUp(dto));
 
         // then
         assertEquals(ALREADY_REGISTERED_SELLER, exception.getErrorCode());
@@ -108,9 +107,8 @@ class SellerAuthServiceImplTest {
                 .willThrow(new CustomException(LOGIN_FAIL));
 
         // when
-        CustomException e = assertThrows(CustomException.class,() -> {
-            sellerAuthService.signin(dto);
-        });
+        CustomException e = assertThrows(CustomException.class,
+                () -> sellerAuthService.signin(dto));
 
         // then
         assertEquals(LOGIN_FAIL, e.getErrorCode());

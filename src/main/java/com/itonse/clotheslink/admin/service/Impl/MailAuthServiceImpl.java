@@ -28,7 +28,6 @@ public class MailAuthServiceImpl implements MailAuthService {
     private final MailRepository mailRepository;
     private final TokenService tokenService;
     private final JavaMailSender javaMailSender;
-
     private final MailAuthContext mailAuthContext;
 
     @Override
