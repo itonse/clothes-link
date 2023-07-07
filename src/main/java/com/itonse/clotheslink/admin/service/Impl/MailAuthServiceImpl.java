@@ -124,6 +124,7 @@ public class MailAuthServiceImpl implements MailAuthService {
         return vo;
     }
 
+    @Override
     public void verifyCode(Mail mail, String authCode) {
         if (mail.getExpiredAt().isBefore(LocalDateTime.now())) {
             mailRepository.delete(mail);
