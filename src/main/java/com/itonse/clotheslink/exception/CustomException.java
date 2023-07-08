@@ -4,11 +4,10 @@ import lombok.Getter;
 
 @Getter
 public class CustomException extends RuntimeException{
-    private ErrorCode errorCode;
-    private String message;
+    private final ErrorCode errorCode;
 
     public CustomException(ErrorCode errorCode) {
+        super(errorCode.getMessage());      // RuntimeException 의 message 필드에 저장
         this.errorCode = errorCode;
-        this.message = errorCode.getMessage();
     }
 }

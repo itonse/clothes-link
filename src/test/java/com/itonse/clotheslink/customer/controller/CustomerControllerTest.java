@@ -133,7 +133,7 @@ class CustomerControllerTest {
 
         // when
         // then
-        mockMvc.perform(MockMvcRequestBuilders.post("/customer/signin/token")
+        mockMvc.perform(MockMvcRequestBuilders.post("/customer/signin")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(signInForm)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -151,7 +151,7 @@ class CustomerControllerTest {
 
         // when
         // then
-        mockMvc.perform(MockMvcRequestBuilders.post("/customer/signin/token")
+        mockMvc.perform(MockMvcRequestBuilders.post("/customer/signin")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(signInForm)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())

@@ -129,7 +129,7 @@ class SellerControllerTest {
 
         // when
         // then
-        mockMvc.perform(MockMvcRequestBuilders.post("/seller/signin/token")
+        mockMvc.perform(MockMvcRequestBuilders.post("/seller/signin")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(signInForm)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -147,7 +147,7 @@ class SellerControllerTest {
 
         // when
         // then
-        mockMvc.perform(MockMvcRequestBuilders.post("/seller/signin/token")
+        mockMvc.perform(MockMvcRequestBuilders.post("/seller/signin")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(signInForm)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())

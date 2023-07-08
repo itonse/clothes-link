@@ -26,7 +26,7 @@ public class CustomerController {
                 .body(customerAuthService.signUp(SignUpForm.toSignUpDto(form)));
     }
 
-    @PostMapping("/signin/token")
+    @PostMapping("/signin")
     public ResponseEntity<Map<String, String>> signIn(@RequestBody @Valid SignInForm form) {
         String token = customerAuthService.signIn(SignInForm.toSignInDto(form));
         Map<String, String> tokenResponse = new HashMap<>();

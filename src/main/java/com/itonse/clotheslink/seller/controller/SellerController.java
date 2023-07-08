@@ -24,7 +24,7 @@ public class SellerController {
         return ResponseEntity.ok().body(sellerAuthService.signUp(SignUpForm.toSignUpDto(form)));
     }
 
-    @PostMapping("/signin/token")
+    @PostMapping("/signin")
     public ResponseEntity<Map<String, String>> signin(@RequestBody @Valid SignInForm form) {
 
         String token = sellerAuthService.signin(SignInForm.toSignInDto(form));
