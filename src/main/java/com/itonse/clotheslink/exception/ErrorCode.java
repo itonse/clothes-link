@@ -20,7 +20,8 @@ public enum ErrorCode {
     INITIATE_EMAIL_REQUEST(HttpStatus.BAD_REQUEST, "먼저 이메일 요청을 진행해주세요."),
     ALREADY_REGISTERED_CATEGORY(HttpStatus.BAD_REQUEST, "이미 등록된 카테고리 입니다."),
     NOT_EXISTS_CATEGORY(HttpStatus.BAD_REQUEST, "존재하지 않는 카테고리 입니다."),
-    EMPTY_CATEGORY_NAME(HttpStatus.BAD_REQUEST, "카테고리 이름은 최소 한 글자 이상입니다.");
+    EMPTY_CATEGORY_NAME(HttpStatus.BAD_REQUEST, "카테고리 이름은 최소 한 글자 이상입니다."),
+    UNAUTHORIZED_USER(HttpStatus.UNAUTHORIZED, "인증된 판매자가 아닙니다.");
 
     private final HttpStatus httpStatus;
     private final String message;
