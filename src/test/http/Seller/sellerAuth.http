@@ -10,7 +10,7 @@ Content-Type: application/json
 }
 
 ### Seller SignIn
-POST http://localhost:8080/seller/signin/token
+POST http://localhost:8080/seller/signin
 Content-Type: application/json
 
 {

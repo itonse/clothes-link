@@ -37,12 +37,12 @@ public class TokenServiceImpl implements TokenService {
 
         UserVo vo = jwtTokenProvider.getUserInfo(token);
 
-        Seller seller = sellerRepository.findByIdAndEmail(vo.getId(), vo.getEmail())
-                .orElseThrow(() -> new CustomException(NOT_FOUND_USER));
-
         if (!vo.getUserType().equals(UserType.SELLER)) {
             throw new CustomException(USER_TYPE_MISMATCH);
         }
+
+        Seller seller = sellerRepository.findByIdAndEmail(vo.getId(), vo.getEmail())
+                .orElseThrow(() -> new CustomException(NOT_FOUND_USER));
 
         return seller;
     }
@@ -53,12 +53,12 @@ public class TokenServiceImpl implements TokenService {
 
         UserVo vo = jwtTokenProvider.getUserInfo(token);
 
-        Customer customer = customerRepository.findByIdAndEmail(vo.getId(), vo.getEmail())
-                .orElseThrow(() -> new CustomException(NOT_FOUND_USER));
-
         if (!vo.getUserType().equals(UserType.CUSTOMER)) {
             throw new CustomException(USER_TYPE_MISMATCH);
         }
+
+        Customer customer = customerRepository.findByIdAndEmail(vo.getId(), vo.getEmail())
+                .orElseThrow(() -> new CustomException(NOT_FOUND_USER));
 
         return customer;
     }
