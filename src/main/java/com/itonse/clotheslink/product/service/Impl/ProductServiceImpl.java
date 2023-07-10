@@ -5,7 +5,7 @@ import com.itonse.clotheslink.exception.CustomException;
 import com.itonse.clotheslink.product.domain.Category;
 import com.itonse.clotheslink.product.domain.Product;
 import com.itonse.clotheslink.product.dto.ProductDto;
-import com.itonse.clotheslink.product.dto.ProductResponse;
+import com.itonse.clotheslink.product.dto.ProductSummaryInfo;
 import com.itonse.clotheslink.product.dto.UpdateProductDto;
 import com.itonse.clotheslink.product.repository.CategoryRepository;
 import com.itonse.clotheslink.product.repository.ProductRepository;
@@ -27,7 +27,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public ProductResponse addProduct(String token, ProductDto dto) {
+    public ProductSummaryInfo addProduct(String token, ProductDto dto) {
         Seller seller = validateSeller(token);
 
         Category category = categoryRepository.findByName(dto.getCategory())
@@ -38,7 +38,7 @@ public class ProductServiceImpl implements ProductService {
         product.setSeller(seller);
         productRepository.save(product);
 
-        return ProductResponse.builder()
+        return ProductSummaryInfo.builder()
                 .categoryId(product.getCategory().getId())
                 .productId(product.getId())
                 .sellerId(product.getSeller().getId())
@@ -48,7 +48,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public ProductResponse updateProduct(String token, Long productId, UpdateProductDto dto) {
+    public ProductSummaryInfo updateProduct(String token, Long productId, UpdateProductDto dto) {
         Product product = validateUpdateProduct(token, productId);
 
         product.setName(dto.getName());
@@ -57,7 +57,7 @@ public class ProductServiceImpl implements ProductService {
         product.setStock(dto.getStock());
         product.setDeleted(dto.isDeleted());
 
-        return ProductResponse.builder()
+        return ProductSummaryInfo.builder()
                 .categoryId(product.getCategory().getId())
                 .productId(product.getId())
                 .sellerId(product.getSeller().getId())
