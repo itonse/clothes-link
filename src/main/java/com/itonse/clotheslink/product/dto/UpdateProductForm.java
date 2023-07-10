@@ -1,42 +1,40 @@
 package com.itonse.clotheslink.product.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Getter
-public class AddProductForm {
+public class UpdateProductForm {
 
-    @NotBlank(message = "카테고리 입력은 필수입니다.")
-    private String category;
-
-    @NotBlank(message = "상품명은 필수 항목입니다.")
+    @NotBlank(message = "상품명 입력은 필수입니다.")
     private String name;
 
+    @NotBlank(message = "상품설명 입력은 필수입니다.(공백 가능)")
     private String description;
 
-    @NotBlank(message = "상품 가격을 입력해주세요.")
+    @NotNull(message = "가격 입력은 필수입니다.")
     @Min(value = 0, message = "가격은 0원 이상이여야 합니다.")
     private int price;
 
-    @NotBlank(message = "재고수량 입력은 필수입니다.")
+    @NotNull(message = "재고수량 입력은 필수입니다.")
     @Min(value = 0, message = "재고수량은 0개 이상이여야 합니다.")
     private int stock;
 
-    public static ProductDto toProductDto(AddProductForm form) {
-        return ProductDto.builder()
-                .category(form.getCategory())
+    private boolean deleted;
+
+    public static UpdateProductDto toDto(UpdateProductForm form) {
+        return UpdateProductDto.builder()
                 .name(form.getName())
                 .description(form.getDescription())
                 .price(form.getPrice())
                 .stock(form.getStock())
+                .deleted(form.isDeleted())
                 .build();
     }
 }

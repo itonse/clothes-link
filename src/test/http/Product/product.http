@@ -5,12 +5,24 @@ POST http://localhost:8080/category?name=신발
 ### Add Product
 POST http://localhost:8080/product
 Content-Type: application/json
-Authorization:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnb3ZsM2RuanNAZ21haWwuY29tIiwianRpIjoiMiIsInJvbGVzIjoiU0VMTEVSIiwiaWF0IjoxNjg4ODc4MTI3LCJleHAiOjE2ODg4ODg5Mjd9.GkWNORwYCAaxj4BAR2N2edni3epyo8UIem1HIv5GMtU
+Authorization:
 
 {
   "category": "신발",
   "name": "나이키 에어포스1",
   "description": "신발입니다",
-  "price": "120000",
-  "stock": "10"
+  "price": 120000,
+  "stock": 10
+}
+
+### Update Product
+PUT http://localhost:8080/product?id=14
+Content-Type: application/json
+Authorization:
+
+{
+  "name": "나이키 에어포스1 SE",
+  "description": "한정판 신발입니다.",
+  "price": 180000,
+  "stock": 10
 }

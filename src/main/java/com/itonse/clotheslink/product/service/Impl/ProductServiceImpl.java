@@ -5,16 +5,17 @@ import com.itonse.clotheslink.exception.CustomException;
 import com.itonse.clotheslink.product.domain.Category;
 import com.itonse.clotheslink.product.domain.Product;
 import com.itonse.clotheslink.product.dto.ProductDto;
-import com.itonse.clotheslink.product.dto.ProductResponse;
+import com.itonse.clotheslink.product.dto.ProductSummaryInfo;
+import com.itonse.clotheslink.product.dto.UpdateProductDto;
 import com.itonse.clotheslink.product.repository.CategoryRepository;
 import com.itonse.clotheslink.product.repository.ProductRepository;
 import com.itonse.clotheslink.product.service.ProductService;
 import com.itonse.clotheslink.seller.domain.Seller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import static com.itonse.clotheslink.exception.ErrorCode.NOT_EXISTS_CATEGORY;
-import static com.itonse.clotheslink.exception.ErrorCode.UNAUTHORIZED_USER;
+import static com.itonse.clotheslink.exception.ErrorCode.*;
 
 @RequiredArgsConstructor
 @Service
@@ -25,7 +26,8 @@ public class ProductServiceImpl implements ProductService {
     private final CategoryRepository categoryRepository;
 
     @Override
-    public ProductResponse addProduct(String token, ProductDto dto) {
+    @Transactional
+    public ProductSummaryInfo addProduct(String token, ProductDto dto) {
         Seller seller = validateSeller(token);
 
         Category category = categoryRepository.findByName(dto.getCategory())
@@ -36,7 +38,26 @@ public class ProductServiceImpl implements ProductService {
         product.setSeller(seller);
         productRepository.save(product);
 
-        return ProductResponse.builder()
+        return ProductSummaryInfo.builder()
+                .categoryId(product.getCategory().getId())
+                .productId(product.getId())
+                .sellerId(product.getSeller().getId())
+                .productName(product.getName())
+                .build();
+    }
+
+    @Override
+    @Transactional
+    public ProductSummaryInfo updateProduct(String token, Long productId, UpdateProductDto dto) {
+        Product product = validateUpdateProduct(token, productId);
+
+        product.setName(dto.getName());
+        product.setDescription(dto.getDescription());
+        product.setPrice(dto.getPrice());
+        product.setStock(dto.getStock());
+        product.setDeleted(dto.isDeleted());
+
+        return ProductSummaryInfo.builder()
                 .categoryId(product.getCategory().getId())
                 .productId(product.getId())
                 .sellerId(product.getSeller().getId())
@@ -56,4 +77,19 @@ public class ProductServiceImpl implements ProductService {
 
         return seller;
     }
+
+    @Override
+    public Product validateUpdateProduct(String token, Long productId) {
+        Seller seller = validateSeller(token);
+
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new CustomException(NOT_EXISTS_PRODUCT));
+
+        if (!product.getSeller().equals(seller)) {
+            throw new CustomException(NOT_SELLERS_PRODUCT);
+        }
+
+        return product;
+    }
+
 }
