@@ -20,11 +20,11 @@ public class UpdateProductForm {
 
     @NotNull(message = "가격 입력은 필수입니다.")
     @Min(value = 0, message = "가격은 0원 이상이여야 합니다.")
-    private String price;
+    private int price;
 
     @NotNull(message = "재고수량 입력은 필수입니다.")
     @Min(value = 0, message = "재고수량은 0개 이상이여야 합니다.")
-    private String stock;
+    private int stock;
 
     private boolean deleted;
 

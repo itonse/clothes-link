@@ -20,8 +20,8 @@ public class Product extends BaseEntity {
 
     private String name;
     private String description;
-    private String price;
-    private String stock;
+    private int price;
+    private int stock;
     private boolean deleted;
 
     @ManyToOne(fetch = FetchType.LAZY)

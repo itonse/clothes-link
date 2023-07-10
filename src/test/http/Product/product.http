@@ -11,8 +11,8 @@ Authorization:
   "category": "신발",
   "name": "나이키 에어포스1",
   "description": "신발입니다",
-  "price": "120000",
-  "stock": "10"
+  "price": 120000,
+  "stock": 10
 }
 
 ### Update Product
@@ -23,6 +23,6 @@ Authorization:
 {
   "name": "나이키 에어포스1 SE",
   "description": "한정판 신발입니다.",
-  "price": "180000",
-  "stock": "10"
+  "price": 180000,
+  "stock": 10
 }

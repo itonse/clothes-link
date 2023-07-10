@@ -13,8 +13,8 @@ public class ProductDto {
     private String category;
     private String name;
     private String description;
-    private String price;
-    private String stock;
+    private int price;
+    private int stock;
 
     public static Product toEntity(ProductDto dto) {
         return Product.builder()
