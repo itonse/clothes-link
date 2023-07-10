@@ -41,10 +41,8 @@ public class TokenServiceImpl implements TokenService {
             throw new CustomException(USER_TYPE_MISMATCH);
         }
 
-        Seller seller = sellerRepository.findByIdAndEmail(vo.getId(), vo.getEmail())
+        return sellerRepository.findByIdAndEmail(vo.getId(), vo.getEmail())
                 .orElseThrow(() -> new CustomException(NOT_FOUND_USER));
-
-        return seller;
     }
 
     @Override
@@ -57,10 +55,8 @@ public class TokenServiceImpl implements TokenService {
             throw new CustomException(USER_TYPE_MISMATCH);
         }
 
-        Customer customer = customerRepository.findByIdAndEmail(vo.getId(), vo.getEmail())
+        return customerRepository.findByIdAndEmail(vo.getId(), vo.getEmail())
                 .orElseThrow(() -> new CustomException(NOT_FOUND_USER));
-
-        return customer;
     }
 
 }
