@@ -4,11 +4,11 @@ import com.itonse.clotheslink.admin.service.TokenService;
 import com.itonse.clotheslink.common.UserType;
 import com.itonse.clotheslink.common.UserVo;
 import com.itonse.clotheslink.config.security.JwtTokenProvider;
-import com.itonse.clotheslink.customer.domain.Customer;
-import com.itonse.clotheslink.customer.repository.CustomerRepository;
+import com.itonse.clotheslink.user.domain.Customer;
+import com.itonse.clotheslink.user.repository.CustomerRepository;
 import com.itonse.clotheslink.exception.CustomException;
-import com.itonse.clotheslink.seller.domain.Seller;
-import com.itonse.clotheslink.seller.repository.SellerRepository;
+import com.itonse.clotheslink.user.domain.Seller;
+import com.itonse.clotheslink.user.repository.SellerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

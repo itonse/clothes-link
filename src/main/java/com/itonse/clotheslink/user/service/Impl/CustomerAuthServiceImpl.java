@@ -1,13 +1,13 @@
-package com.itonse.clotheslink.customer.service.Impl;
+package com.itonse.clotheslink.user.service.Impl;
 
 import com.itonse.clotheslink.common.UserType;
 import com.itonse.clotheslink.config.security.JwtTokenProvider;
-import com.itonse.clotheslink.customer.domain.Customer;
-import com.itonse.clotheslink.customer.dto.SignInDto;
-import com.itonse.clotheslink.customer.dto.SignUpDto;
-import com.itonse.clotheslink.customer.dto.UserInfoResponse;
-import com.itonse.clotheslink.customer.repository.CustomerRepository;
-import com.itonse.clotheslink.customer.service.CustomerAuthService;
+import com.itonse.clotheslink.user.domain.Customer;
+import com.itonse.clotheslink.user.dto.SignInDto;
+import com.itonse.clotheslink.user.dto.SignUpDto;
+import com.itonse.clotheslink.user.dto.UserInfoResponse;
+import com.itonse.clotheslink.user.repository.CustomerRepository;
+import com.itonse.clotheslink.user.service.CustomerAuthService;
 import com.itonse.clotheslink.exception.CustomException;
 
 import lombok.RequiredArgsConstructor;

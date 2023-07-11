@@ -1,4 +1,4 @@
-package com.itonse.clotheslink.seller.domain;
+package com.itonse.clotheslink.user.domain;
 
 import com.itonse.clotheslink.common.BaseEntity;
 import lombok.*;

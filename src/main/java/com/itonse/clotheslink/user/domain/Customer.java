@@ -1,4 +1,4 @@
-package com.itonse.clotheslink.customer.domain;
+package com.itonse.clotheslink.user.domain;
 
 import com.itonse.clotheslink.common.BaseEntity;
 import lombok.*;
@@ -21,7 +21,6 @@ public class Customer extends BaseEntity {
 
     @Column(unique = true)
     private String email;
-    private String name;
     private String password;
     private String phone;
     private boolean authenticated;

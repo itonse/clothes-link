@@ -2,7 +2,7 @@ package com.itonse.clotheslink.common.strategy;
 
 import com.itonse.clotheslink.admin.service.TokenService;
 import com.itonse.clotheslink.common.UserType;
-import com.itonse.clotheslink.seller.domain.Seller;
+import com.itonse.clotheslink.user.domain.Seller;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 

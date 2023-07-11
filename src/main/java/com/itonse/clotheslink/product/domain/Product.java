@@ -1,7 +1,7 @@
 package com.itonse.clotheslink.product.domain;
 
 import com.itonse.clotheslink.common.BaseEntity;
-import com.itonse.clotheslink.seller.domain.Seller;
+import com.itonse.clotheslink.user.domain.Seller;
 import lombok.*;
 
 import javax.persistence.*;

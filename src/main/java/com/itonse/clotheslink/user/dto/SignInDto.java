@@ -1,4 +1,4 @@
-package com.itonse.clotheslink.customer.dto;
+package com.itonse.clotheslink.user.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Getter
-public class UserInfoResponse {
-    private Long id;
+public class SignInDto {
+
     private String email;
+    private String password;
 }

@@ -1,4 +1,4 @@
-package com.itonse.clotheslink.customer.dto;
+package com.itonse.clotheslink.user.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,28 +13,20 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @Builder
 @Getter
-public class SignUpForm {
+public class SignInForm {
 
     @Email(message = "이메일 형식이 아닙니다.")
     @NotBlank(message = "이메일은 필수 항목입니다.")
     private String email;
 
-    @NotBlank(message = "이름은 필수 항목입니다.")
-    private String name;
-
-    @Size(min = 8, max = 20, message = "비밀번호는 최소 8자 ~ 최대 20자 이내로 입력해주세요.")
+    @Size(min = 8, max = 20, message = "비밀번호는 8자 이상으로 20자 이하로 입력해주세요.")
     @NotBlank(message = "비밀번호는 필수 항목입니다.")
     private String password;
 
-    @NotBlank(message = "연락처는 필수 항목 입니다.")
-    private String phone;
-
-    public static SignUpDto toSignUpDto(SignUpForm form) {
-        return SignUpDto.builder()
+    public static SignInDto toSignInDto(SignInForm form) {
+        return SignInDto.builder()
                 .email(form.getEmail())
-                .name(form.getName())
                 .password(form.getPassword())
-                .phone(form.getPhone())
                 .build();
     }
 }

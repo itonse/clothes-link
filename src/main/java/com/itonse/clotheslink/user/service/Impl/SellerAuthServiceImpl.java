@@ -1,14 +1,14 @@
-package com.itonse.clotheslink.seller.service.Impl;
+package com.itonse.clotheslink.user.service.Impl;
 
 import com.itonse.clotheslink.common.UserType;
 import com.itonse.clotheslink.config.security.JwtTokenProvider;
 import com.itonse.clotheslink.exception.CustomException;
-import com.itonse.clotheslink.seller.domain.Seller;
-import com.itonse.clotheslink.seller.dto.SignInDto;
-import com.itonse.clotheslink.seller.dto.UserInfoResponse;
-import com.itonse.clotheslink.seller.dto.SignUpDto;
-import com.itonse.clotheslink.seller.repository.SellerRepository;
-import com.itonse.clotheslink.seller.service.SellerAuthService;
+import com.itonse.clotheslink.user.domain.Seller;
+import com.itonse.clotheslink.user.dto.SignInDto;
+import com.itonse.clotheslink.user.dto.UserInfoResponse;
+import com.itonse.clotheslink.user.dto.SignUpDto;
+import com.itonse.clotheslink.user.repository.SellerRepository;
+import com.itonse.clotheslink.user.service.SellerAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

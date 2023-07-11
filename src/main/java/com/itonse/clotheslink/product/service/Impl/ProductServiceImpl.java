@@ -10,7 +10,7 @@ import com.itonse.clotheslink.product.dto.UpdateProductDto;
 import com.itonse.clotheslink.product.repository.CategoryRepository;
 import com.itonse.clotheslink.product.repository.ProductRepository;
 import com.itonse.clotheslink.product.service.ProductService;
-import com.itonse.clotheslink.seller.domain.Seller;
+import com.itonse.clotheslink.user.domain.Seller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,6 +1,6 @@
-package com.itonse.clotheslink.customer.repository;
+package com.itonse.clotheslink.user.repository;
 
-import com.itonse.clotheslink.customer.domain.Customer;
+import com.itonse.clotheslink.user.domain.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
