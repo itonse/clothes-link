@@ -8,7 +8,7 @@ import com.itonse.clotheslink.product.dto.ProductSummaryInfo;
 import com.itonse.clotheslink.product.dto.UpdateProductDto;
 import com.itonse.clotheslink.product.repository.CategoryRepository;
 import com.itonse.clotheslink.product.repository.ProductRepository;
-import com.itonse.clotheslink.product.service.ProductService;
+import com.itonse.clotheslink.product.service.ProductManageService;
 import com.itonse.clotheslink.user.domain.Seller;
 import com.itonse.clotheslink.user.service.SellerAuthService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import static com.itonse.clotheslink.exception.ErrorCode.*;
 
 @RequiredArgsConstructor
 @Service
-public class ProductServiceImpl implements ProductService {
+public class ProductManageServiceImpl implements ProductManageService {
 
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
