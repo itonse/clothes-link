@@ -1,6 +1,5 @@
 package com.itonse.clotheslink.product.service.Impl;
 
-import com.itonse.clotheslink.admin.service.TokenService;
 import com.itonse.clotheslink.exception.CustomException;
 import com.itonse.clotheslink.product.domain.Category;
 import com.itonse.clotheslink.product.domain.Product;
@@ -10,7 +9,8 @@ import com.itonse.clotheslink.product.dto.UpdateProductDto;
 import com.itonse.clotheslink.product.repository.CategoryRepository;
 import com.itonse.clotheslink.product.repository.ProductRepository;
 import com.itonse.clotheslink.product.service.ProductService;
-import com.itonse.clotheslink.seller.domain.Seller;
+import com.itonse.clotheslink.user.domain.Seller;
+import com.itonse.clotheslink.user.service.SellerAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,14 +21,14 @@ import static com.itonse.clotheslink.exception.ErrorCode.*;
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    private final TokenService tokenService;
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private final SellerAuthService sellerAuthService;
 
     @Override
     @Transactional
     public ProductSummaryInfo addProduct(String token, ProductDto dto) {
-        Seller seller = validateSeller(token);
+        Seller seller = sellerAuthService.validateSeller(token);
 
         Category category = categoryRepository.findByName(dto.getCategory())
                 .orElseThrow(() -> new CustomException(NOT_EXISTS_CATEGORY));
@@ -66,21 +66,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Seller validateSeller(String token) {
-        tokenService.validateToken(token);
-
-        Seller seller = tokenService.findSellerByToken(token);
-
-        if (!seller.isAuthenticated()) {
-            throw new CustomException(UNAUTHORIZED_USER);
-        }
-
-        return seller;
-    }
-
-    @Override
     public Product validateUpdateProduct(String token, Long productId) {
-        Seller seller = validateSeller(token);
+        Seller seller = sellerAuthService.validateSeller(token);
 
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new CustomException(NOT_EXISTS_PRODUCT));

@@ -1,6 +1,6 @@
 
 ### Seller signUp
-POST http://localhost:8080/seller/signup
+POST http://localhost:8080/signup/seller
 Content-Type: application/json
 
 {
@@ -10,7 +10,7 @@ Content-Type: application/json
 }
 
 ### Seller SignIn
-POST http://localhost:8080/seller/signin
+POST http://localhost:8080/signin/seller
 Content-Type: application/json
 
 {

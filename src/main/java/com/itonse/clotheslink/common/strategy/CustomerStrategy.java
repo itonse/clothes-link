@@ -1,31 +1,31 @@
 package com.itonse.clotheslink.common.strategy;
 
-import com.itonse.clotheslink.admin.service.TokenService;
 import com.itonse.clotheslink.common.UserType;
-import com.itonse.clotheslink.customer.domain.Customer;
+import com.itonse.clotheslink.user.domain.Customer;
+import com.itonse.clotheslink.user.service.CustomerAuthService;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class CustomerStrategy extends UserTypeStrategy {
 
-    private final TokenService tokenService;
+    private final CustomerAuthService customerAuthService;
 
-    public CustomerStrategy(TokenService tokenService) {
+    public CustomerStrategy(CustomerAuthService customerAuthService) {
         super(UserType.CUSTOMER);
-        this.tokenService = tokenService;
+        this.customerAuthService = customerAuthService;
     }
 
     @Override
     protected boolean isAuthenticated(String token) {
-        Customer customer = tokenService.findCustomerByToken(token);
+        Customer customer = customerAuthService.findCustomerByToken(token);
         return customer.isAuthenticated();
     }
 
     @Override
     @Transactional
     protected void modifyAuthStatus(String token) {
-        Customer customer = tokenService.findCustomerByToken(token);
+        Customer customer = customerAuthService.findCustomerByToken(token);
         customer.setAuthenticated(true);
     }
 }

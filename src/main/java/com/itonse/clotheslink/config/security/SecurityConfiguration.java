@@ -26,8 +26,9 @@ public class SecurityConfiguration {
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                    .antMatchers("/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**"
-                            , "/**/signup",  "/**/signin/token").permitAll()
+                    .antMatchers("/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**",
+                            "/**/signup/seller", "/**/signup/customer",
+                            "/**/signin/seller,", "/**/signin/customer").permitAll()
                 .and()
                 .addFilterBefore(
                         new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)

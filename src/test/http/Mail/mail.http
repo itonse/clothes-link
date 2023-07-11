@@ -1,0 +1,7 @@
+### Send Auth-Mail
+POST http://localhost:8080/auth/mail
+Authorization:
+
+### Confirm Verification
+PATCH http://localhost:8080/user/auth-status?code=jsErt
+Authorization:
