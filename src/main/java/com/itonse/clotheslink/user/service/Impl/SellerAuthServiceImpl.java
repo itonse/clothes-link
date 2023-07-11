@@ -1,6 +1,7 @@
 package com.itonse.clotheslink.user.service.Impl;
 
 import com.itonse.clotheslink.common.UserType;
+import com.itonse.clotheslink.common.UserVo;
 import com.itonse.clotheslink.config.security.JwtTokenProvider;
 import com.itonse.clotheslink.exception.CustomException;
 import com.itonse.clotheslink.user.domain.Seller;
@@ -47,6 +48,22 @@ public class SellerAuthServiceImpl implements SellerAuthService {
                         .orElseThrow(() -> new CustomException(LOGIN_FAIL));
 
         return jwtTokenProvider.createToken(seller.getEmail(), seller.getId(), UserType.SELLER);
+    }
+
+    @Override
+    public Seller findSellerByToken(String token) {
+        if (!jwtTokenProvider.validateToken(token)) {
+            throw new CustomException(INVALID_TOKEN);
+        }
+
+        UserVo vo = jwtTokenProvider.getUserInfo(token);
+
+        if (!vo.getUserType().equals(UserType.SELLER)) {
+            throw new CustomException(USER_TYPE_MISMATCH);
+        }
+
+        return sellerRepository.findByIdAndEmail(vo.getId(), vo.getEmail())
+                .orElseThrow(() -> new CustomException(NOT_FOUND_USER));
     }
 
 }

@@ -1,6 +1,6 @@
 package com.itonse.clotheslink.product.service.Impl;
 
-import com.itonse.clotheslink.admin.service.TokenService;
+import com.itonse.clotheslink.config.security.JwtTokenProvider;
 import com.itonse.clotheslink.exception.CustomException;
 import com.itonse.clotheslink.product.domain.Category;
 import com.itonse.clotheslink.product.domain.Product;
@@ -11,6 +11,7 @@ import com.itonse.clotheslink.product.repository.CategoryRepository;
 import com.itonse.clotheslink.product.repository.ProductRepository;
 import com.itonse.clotheslink.product.service.ProductService;
 import com.itonse.clotheslink.user.domain.Seller;
+import com.itonse.clotheslink.user.service.SellerAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,9 +22,10 @@ import static com.itonse.clotheslink.exception.ErrorCode.*;
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    private final TokenService tokenService;
+    private final JwtTokenProvider jwtTokenProvider;
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private final SellerAuthService sellerAuthService;
 
     @Override
     @Transactional
@@ -67,9 +69,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Seller validateSeller(String token) {
-        tokenService.validateToken(token);
+        if (!jwtTokenProvider.validateToken(token)) {
+            throw new CustomException(INVALID_TOKEN);
+        }
 
-        Seller seller = tokenService.findSellerByToken(token);
+        Seller seller = sellerAuthService.findSellerByToken(token);
 
         if (!seller.isAuthenticated()) {
             throw new CustomException(UNAUTHORIZED_USER);

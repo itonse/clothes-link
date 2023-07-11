@@ -1,6 +1,6 @@
-package com.itonse.clotheslink.admin.repository;
+package com.itonse.clotheslink.mail.repository;
 
-import com.itonse.clotheslink.admin.domain.Mail;
+import com.itonse.clotheslink.mail.domain.Mail;
 import com.itonse.clotheslink.common.UserType;
 import org.springframework.data.jpa.repository.JpaRepository;
 

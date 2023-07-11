@@ -1,9 +1,8 @@
-package com.itonse.clotheslink.admin.service.Impl;
+package com.itonse.clotheslink.mail.service.Impl;
 
-import com.itonse.clotheslink.admin.domain.Mail;
-import com.itonse.clotheslink.admin.repository.MailRepository;
-import com.itonse.clotheslink.admin.service.MailAuthService;
-import com.itonse.clotheslink.admin.service.TokenService;
+import com.itonse.clotheslink.mail.domain.Mail;
+import com.itonse.clotheslink.mail.repository.MailRepository;
+import com.itonse.clotheslink.mail.service.MailAuthService;
 import com.itonse.clotheslink.common.*;
 import com.itonse.clotheslink.common.strategy.MailAuthContext;
 import com.itonse.clotheslink.config.security.JwtTokenProvider;
@@ -26,7 +25,6 @@ public class MailAuthServiceImpl implements MailAuthService {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final MailRepository mailRepository;
-    private final TokenService tokenService;
     private final JavaMailSender javaMailSender;
     private final MailAuthContext mailAuthContext;
 
@@ -38,7 +36,9 @@ public class MailAuthServiceImpl implements MailAuthService {
 
     @Override
     public UserVo verifyEmailSending(String token) {
-        tokenService.validateToken(token);
+        if (!jwtTokenProvider.validateToken(token)) {
+            throw new CustomException(INVALID_TOKEN);
+        }
 
         UserVo vo = jwtTokenProvider.getUserInfo(token);
 
@@ -102,7 +102,9 @@ public class MailAuthServiceImpl implements MailAuthService {
     @Override
     @Transactional
     public UserVo confirmVerification(String token, String authCode) {
-        tokenService.validateToken(token);
+        if (!jwtTokenProvider.validateToken(token)) {
+            throw new CustomException(INVALID_TOKEN);
+        }
 
         UserVo vo = jwtTokenProvider.getUserInfo(token);
 

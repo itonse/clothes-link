@@ -1,6 +1,7 @@
 package com.itonse.clotheslink.user.service.Impl;
 
 import com.itonse.clotheslink.common.UserType;
+import com.itonse.clotheslink.common.UserVo;
 import com.itonse.clotheslink.config.security.JwtTokenProvider;
 import com.itonse.clotheslink.user.domain.Customer;
 import com.itonse.clotheslink.user.dto.SignInDto;
@@ -49,4 +50,19 @@ public class CustomerAuthServiceImpl implements CustomerAuthService {
                 customer.getEmail(), customer.getId(), UserType.CUSTOMER);
     }
 
+    @Override
+    public Customer findCustomerByToken(String token) {
+        if (!jwtTokenProvider.validateToken(token)) {
+            throw new CustomException(INVALID_TOKEN);
+        }
+
+        UserVo vo = jwtTokenProvider.getUserInfo(token);
+
+        if (!vo.getUserType().equals(UserType.CUSTOMER)) {
+            throw new CustomException(USER_TYPE_MISMATCH);
+        }
+
+        return customerRepository.findByIdAndEmail(vo.getId(), vo.getEmail())
+                .orElseThrow(() -> new CustomException(NOT_FOUND_USER));
+    }
 }

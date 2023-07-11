@@ -9,9 +9,9 @@ import com.itonse.clotheslink.user.domain.Seller;
 public interface ProductService {
     ProductSummaryInfo addProduct(String token, ProductDto dto);
 
-    Seller validateSeller(String token);
-
     ProductSummaryInfo updateProduct(String token, Long productId, UpdateProductDto dto);
+
+    Seller validateSeller(String token);
 
     Product validateUpdateProduct(String token, Long productId);
 }

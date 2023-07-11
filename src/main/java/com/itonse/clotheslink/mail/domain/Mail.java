@@ -1,4 +1,4 @@
-package com.itonse.clotheslink.admin.domain;
+package com.itonse.clotheslink.mail.domain;
 
 import com.itonse.clotheslink.common.UserType;
 import lombok.*;

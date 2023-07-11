@@ -1,6 +1,6 @@
-package com.itonse.clotheslink.admin.service;
+package com.itonse.clotheslink.mail.service;
 
-import com.itonse.clotheslink.admin.domain.Mail;
+import com.itonse.clotheslink.mail.domain.Mail;
 import com.itonse.clotheslink.common.UserType;
 import com.itonse.clotheslink.common.UserVo;
 
