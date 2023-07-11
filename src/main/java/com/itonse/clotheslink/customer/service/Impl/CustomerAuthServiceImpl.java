@@ -12,6 +12,7 @@ import com.itonse.clotheslink.exception.CustomException;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.itonse.clotheslink.exception.ErrorCode.*;
 
@@ -23,6 +24,7 @@ public class CustomerAuthServiceImpl implements CustomerAuthService {
     private final JwtTokenProvider jwtTokenProvider;
 
     @Override
+    @Transactional
     public UserInfoResponse signUp(SignUpDto dto) {
 
         customerRepository.findByEmail(dto.getEmail()).ifPresent(e -> {

@@ -6,6 +6,7 @@ import com.itonse.clotheslink.product.repository.CategoryRepository;
 import com.itonse.clotheslink.product.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.itonse.clotheslink.exception.ErrorCode.ALREADY_REGISTERED_CATEGORY;
 import static com.itonse.clotheslink.exception.ErrorCode.EMPTY_CATEGORY_NAME;
@@ -17,6 +18,7 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
 
     @Override
+    @Transactional
     public String addCategory(String categoryName) {
         validateCategoryName(categoryName);
 
@@ -33,8 +35,8 @@ public class CategoryServiceImpl implements CategoryService {
             throw new CustomException(EMPTY_CATEGORY_NAME);
         }
 
-        categoryRepository.findByName(categoryName).ifPresent( e -> {
+        if (categoryRepository.existsByName(categoryName)) {
             throw new CustomException(ALREADY_REGISTERED_CATEGORY);
-        });
+        }
     }
 }

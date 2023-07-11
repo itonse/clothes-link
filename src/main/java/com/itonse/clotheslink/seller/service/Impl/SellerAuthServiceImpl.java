@@ -11,6 +11,7 @@ import com.itonse.clotheslink.seller.repository.SellerRepository;
 import com.itonse.clotheslink.seller.service.SellerAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.itonse.clotheslink.exception.ErrorCode.*;
 
@@ -21,6 +22,8 @@ public class SellerAuthServiceImpl implements SellerAuthService {
     private final SellerRepository sellerRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
+    @Override
+    @Transactional
     public UserInfoResponse signUp(SignUpDto dto) {
 
         Seller seller = SignUpDto.toSellerEntity(dto);
