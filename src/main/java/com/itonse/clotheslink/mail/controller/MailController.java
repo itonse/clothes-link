@@ -12,7 +12,6 @@ public class MailController {
 
     private final MailAuthService mailAuthService;
 
-
     @PostMapping("/auth/mail")
     public ResponseEntity<UserVo> sendAuthMail(@RequestHeader(name = "Authorization") String token) {
 

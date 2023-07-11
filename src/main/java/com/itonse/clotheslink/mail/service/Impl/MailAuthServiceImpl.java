@@ -4,7 +4,7 @@ import com.itonse.clotheslink.mail.domain.Mail;
 import com.itonse.clotheslink.mail.repository.MailRepository;
 import com.itonse.clotheslink.mail.service.MailAuthService;
 import com.itonse.clotheslink.common.*;
-import com.itonse.clotheslink.common.strategy.MailAuthContext;
+import com.itonse.clotheslink.common.strategy.UserAuthContext;
 import com.itonse.clotheslink.config.security.JwtTokenProvider;
 import com.itonse.clotheslink.exception.CustomException;
 import lombok.RequiredArgsConstructor;
@@ -26,12 +26,12 @@ public class MailAuthServiceImpl implements MailAuthService {
     private final JwtTokenProvider jwtTokenProvider;
     private final MailRepository mailRepository;
     private final JavaMailSender javaMailSender;
-    private final MailAuthContext mailAuthContext;
+    private final UserAuthContext userAuthContext;
 
     @Override
     public boolean verifyUserAuth(UserType userType, String token) {
 
-        return mailAuthContext.isAuthenticated(userType, token);
+        return userAuthContext.isAuthenticated(userType, token);
     }
 
     @Override
@@ -120,7 +120,7 @@ public class MailAuthServiceImpl implements MailAuthService {
 
         mailRepository.delete(mail);
 
-        mailAuthContext.modifyAuthStatus(vo.getUserType(), token);
+        userAuthContext.modifyAuthStatus(vo.getUserType(), token);
 
         return vo;
     }

@@ -11,9 +11,9 @@ import static com.itonse.clotheslink.exception.ErrorCode.NOT_FOUND_USER_TYPE;
 
 @RequiredArgsConstructor
 @Component
-public class MailAuthContext {
+public class UserAuthContext {
     /**
-     * MailAuthContext 메소드를 생성하는 시점에 스프링은 스프링 컨테이너에서
+     * UserAuthContext 메소드를 생성하는 시점에 스프링은 스프링 컨테이너에서
      * UserTypeStrategy 를 구현하는 모든 빈을 가져와서 추가
      */
     private final List<UserTypeStrategy> userTypeStrategies;
