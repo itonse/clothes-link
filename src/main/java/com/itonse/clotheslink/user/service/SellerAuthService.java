@@ -12,4 +12,5 @@ public interface SellerAuthService {
 
     Seller findSellerByToken(String token);
 
+    Seller validateSeller(String token);
 }

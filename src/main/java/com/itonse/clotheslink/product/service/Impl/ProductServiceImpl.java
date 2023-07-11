@@ -1,6 +1,5 @@
 package com.itonse.clotheslink.product.service.Impl;
 
-import com.itonse.clotheslink.config.security.JwtTokenProvider;
 import com.itonse.clotheslink.exception.CustomException;
 import com.itonse.clotheslink.product.domain.Category;
 import com.itonse.clotheslink.product.domain.Product;
@@ -22,7 +21,6 @@ import static com.itonse.clotheslink.exception.ErrorCode.*;
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    private final JwtTokenProvider jwtTokenProvider;
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final SellerAuthService sellerAuthService;
@@ -30,7 +28,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public ProductSummaryInfo addProduct(String token, ProductDto dto) {
-        Seller seller = validateSeller(token);
+        Seller seller = sellerAuthService.validateSeller(token);
 
         Category category = categoryRepository.findByName(dto.getCategory())
                 .orElseThrow(() -> new CustomException(NOT_EXISTS_CATEGORY));
@@ -68,23 +66,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Seller validateSeller(String token) {
-        if (!jwtTokenProvider.validateToken(token)) {
-            throw new CustomException(INVALID_TOKEN);
-        }
-
-        Seller seller = sellerAuthService.findSellerByToken(token);
-
-        if (!seller.isAuthenticated()) {
-            throw new CustomException(UNAUTHORIZED_USER);
-        }
-
-        return seller;
-    }
-
-    @Override
     public Product validateUpdateProduct(String token, Long productId) {
-        Seller seller = validateSeller(token);
+        Seller seller = sellerAuthService.validateSeller(token);
 
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new CustomException(NOT_EXISTS_PRODUCT));

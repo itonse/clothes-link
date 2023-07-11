@@ -66,4 +66,18 @@ public class SellerAuthServiceImpl implements SellerAuthService {
                 .orElseThrow(() -> new CustomException(NOT_FOUND_USER));
     }
 
+    @Override
+    public Seller validateSeller(String token) {
+        if (!jwtTokenProvider.validateToken(token)) {
+            throw new CustomException(INVALID_TOKEN);
+        }
+
+        Seller seller = findSellerByToken(token);
+
+        if (!seller.isAuthenticated()) {
+            throw new CustomException(UNAUTHORIZED_USER);
+        }
+
+        return seller;
+    }
 }
