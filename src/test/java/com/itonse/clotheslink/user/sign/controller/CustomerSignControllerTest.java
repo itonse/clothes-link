@@ -1,14 +1,12 @@
-package com.itonse.clotheslink.seller.controller;
+package com.itonse.clotheslink.user.sign.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.itonse.clotheslink.seller.dto.SignInForm;
-import com.itonse.clotheslink.seller.dto.SignUpForm;
-import com.itonse.clotheslink.seller.repository.SellerRepository;
-
+import com.itonse.clotheslink.user.dto.SignInForm;
+import com.itonse.clotheslink.user.dto.SignUpForm;
+import com.itonse.clotheslink.user.repository.CustomerRepository;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,7 +17,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @AutoConfigureMockMvc
 @SpringBootTest
-class SellerControllerTest {
+class CustomerSignControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -28,108 +26,109 @@ class SellerControllerTest {
     private ObjectMapper objectMapper;
 
     @Autowired
-    private SellerRepository sellerRepository;
+    private CustomerRepository customerRepository;
 
     @BeforeEach
     void resetDataBase() {
-        sellerRepository.deleteAll();
+        customerRepository.deleteAll();
     }
 
     @Test
     void signUpSuccess() throws Exception {
         // given
         SignUpForm signUpForm = SignUpForm.builder()
-                .email("aaa@naver.com")
+                .email("bbb@naver.com")
                 .password("11223344")
                 .phone("010-1111-2222")
                 .build();
 
         // when
         // then
-        mockMvc.perform(MockMvcRequestBuilders.post("/seller/signup")
+        mockMvc.perform(MockMvcRequestBuilders.post("/signup/customer")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(signUpForm)))
+                .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.email")
-                        .value("aaa@naver.com"));
+                        .value("bbb@naver.com"));
     }
 
     @Test
     void signUpFailCustomException() throws Exception {
         // given
-        SignUpForm fistForm = SignUpForm.builder()
-                .email("aaa@naver.com")
+        SignUpForm firstForm = SignUpForm.builder()
+                .email("bbb@naver.com")
                 .password("11223344")
-                .phone("010-3333-4444")
+                .phone("010-1111-2222")
                 .build();
 
         SignUpForm secondForm = SignUpForm.builder()
-                .email("aaa@naver.com")
-                .password("77778888")
+                .email("bbb@naver.com")
+                .password("55667788")
                 .phone("010-5555-6666")
                 .build();
 
+        mockMvc.perform(MockMvcRequestBuilders.post("/signup/customer")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(firstForm)))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.email")
+                        .value("bbb@naver.com"));
+
         // when
         // then
-        mockMvc.perform(MockMvcRequestBuilders.post("/seller/signup")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(fistForm)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id")
-                        .value(1))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.email")
-                        .value("aaa@naver.com"));
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/seller/signup")
+        mockMvc.perform(MockMvcRequestBuilders.post("/signup/customer")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(secondForm)))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.errorCode")
-                        .value("ALREADY_REGISTERED_SELLER"))
+                        .value("ALREADY_REGISTERED_CUSTOMER"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message")
                         .value("이미 가입된 이메일 입니다."));
-
     }
 
     @Test
     void signUpFailValidException() throws Exception {
         // given
-        SignUpForm form = SignUpForm.builder()
-                .email("aaa@naver.com")
-                .password("11223344")
+        SignUpForm signUpForm = SignUpForm.builder()
+                .email("bbb@naver.com")
+                .password("11")
+                .phone("010-1111-2222")
                 .build();
 
         // when
         // then
-        mockMvc.perform(MockMvcRequestBuilders.post("/seller/signup")
+        mockMvc.perform(MockMvcRequestBuilders.post("/signup/customer")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(form)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.length()")
-                        .value(1))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0]")
-                        .value("연락처는 필수 항목 입니다."));
+                .content(objectMapper.writeValueAsString(signUpForm)))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.jsonPath("$")
+                        .value("비밀번호는 최소 8자 ~ 최대 20자 이내로 입력해주세요."));
     }
 
     @Test
     void signInSuccess() throws Exception {
         // given
         SignUpForm signUpForm = SignUpForm.builder()
-                .email("aaa@naver.com")
+                .email("bbb@naver.com")
                 .password("11223344")
-                .phone("010-2222-4444")
+                .phone("010-1111-2222")
                 .build();
 
         SignInForm signInForm = SignInForm.builder()
-                .email("aaa@naver.com")
+                .email("bbb@naver.com")
                 .password("11223344")
                 .build();
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/seller/signup")
+        mockMvc.perform(MockMvcRequestBuilders.post("/signup/customer")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(signUpForm)))
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
         // when
         // then
-        mockMvc.perform(MockMvcRequestBuilders.post("/seller/signin")
+        mockMvc.perform(MockMvcRequestBuilders.post("/signin/customer")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(signInForm)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -147,7 +146,7 @@ class SellerControllerTest {
 
         // when
         // then
-        mockMvc.perform(MockMvcRequestBuilders.post("/seller/signin")
+        mockMvc.perform(MockMvcRequestBuilders.post("/signin/customer")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(signInForm)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
@@ -157,5 +156,4 @@ class SellerControllerTest {
                         .value("일치하는 회원정보가 없습니다."));
 
     }
-
 }

@@ -1,16 +1,15 @@
 ### Customer signUp
-POST http://localhost:8080/customer/signup
+POST http://localhost:8080/signup/customer
 Content-Type: application/json
 
 {
   "email": "one@naver.com",
-  "name" : "김일번",
   "password": "11223344",
   "phone": "010-1111-2222"
 }
 
 ### Customer SignIn
-POST http://localhost:8080/customer/signin
+POST http://localhost:8080/signin/customer
 Content-Type: application/json
 
 {

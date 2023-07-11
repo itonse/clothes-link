@@ -1,13 +1,13 @@
-package com.itonse.clotheslink.seller.service;
+package com.itonse.clotheslink.user.sign.service;
 
 import com.itonse.clotheslink.config.security.JwtTokenProvider;
 import com.itonse.clotheslink.exception.CustomException;
-import com.itonse.clotheslink.seller.domain.Seller;
-import com.itonse.clotheslink.seller.dto.SignInDto;
-import com.itonse.clotheslink.seller.dto.SignUpDto;
-import com.itonse.clotheslink.seller.repository.SellerRepository;
+import com.itonse.clotheslink.user.domain.Seller;
+import com.itonse.clotheslink.user.dto.SignInDto;
+import com.itonse.clotheslink.user.dto.SignUpDto;
+import com.itonse.clotheslink.user.repository.SellerRepository;
 
-import com.itonse.clotheslink.seller.service.Impl.SellerAuthServiceImpl;
+import com.itonse.clotheslink.user.service.Impl.SellerAuthServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -25,7 +25,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-class SellerAuthServiceImplTest {
+class SellerSignServiceTest {
 
     @Mock
     private SellerRepository sellerRepository;

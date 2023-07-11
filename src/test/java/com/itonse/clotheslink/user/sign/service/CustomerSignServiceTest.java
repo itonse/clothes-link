@@ -1,11 +1,12 @@
-package com.itonse.clotheslink.customer.service.Impl;
+package com.itonse.clotheslink.user.sign.service;
 
 import com.itonse.clotheslink.config.security.JwtTokenProvider;
-import com.itonse.clotheslink.customer.domain.Customer;
-import com.itonse.clotheslink.customer.dto.SignInDto;
-import com.itonse.clotheslink.customer.dto.SignUpDto;
-import com.itonse.clotheslink.customer.repository.CustomerRepository;
+import com.itonse.clotheslink.user.domain.Customer;
+import com.itonse.clotheslink.user.dto.SignInDto;
+import com.itonse.clotheslink.user.dto.SignUpDto;
+import com.itonse.clotheslink.user.repository.CustomerRepository;
 import com.itonse.clotheslink.exception.CustomException;
+import com.itonse.clotheslink.user.service.Impl.CustomerAuthServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,7 +25,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-class CustomerAuthServiceImplTest {
+class CustomerSignServiceTest {
 
     @Mock
     CustomerRepository customerRepository;
@@ -40,7 +41,6 @@ class CustomerAuthServiceImplTest {
         // given
         SignUpDto dto = SignUpDto.builder()
                 .email("bbb@naver.com")
-                .name("김일번")
                 .password("11223344")
                 .phone("010-1111-2222")
                 .build();
@@ -60,7 +60,6 @@ class CustomerAuthServiceImplTest {
         // given
         SignUpDto dto = SignUpDto.builder()
                 .email("bbb@naver.com")
-                .name("김일번")
                 .password("11223344")
                 .phone("010-1111-2222")
                 .build();
