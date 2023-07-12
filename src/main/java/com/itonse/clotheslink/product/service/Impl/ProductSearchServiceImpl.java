@@ -8,6 +8,7 @@ import com.itonse.clotheslink.product.repository.CategoryRepository;
 import com.itonse.clotheslink.product.repository.ProductRepository;
 import com.itonse.clotheslink.product.service.ProductSearchService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -52,6 +53,7 @@ public class ProductSearchServiceImpl implements ProductSearchService {
     }
 
     @Override
+    @Cacheable(value = "ProductDetail", key = "#id")
     public ProductDetail getProductDetail(Long id) {
 
         Product product = productRepository.findById(id)

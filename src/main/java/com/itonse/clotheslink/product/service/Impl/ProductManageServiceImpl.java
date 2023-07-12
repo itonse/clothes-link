@@ -3,16 +3,14 @@ package com.itonse.clotheslink.product.service.Impl;
 import com.itonse.clotheslink.exception.CustomException;
 import com.itonse.clotheslink.product.domain.Category;
 import com.itonse.clotheslink.product.domain.Product;
-import com.itonse.clotheslink.product.dto.ConvertProductToDto;
-import com.itonse.clotheslink.product.dto.ProductDto;
-import com.itonse.clotheslink.product.dto.ProductSummary;
-import com.itonse.clotheslink.product.dto.UpdateProductDto;
+import com.itonse.clotheslink.product.dto.*;
 import com.itonse.clotheslink.product.repository.CategoryRepository;
 import com.itonse.clotheslink.product.repository.ProductRepository;
 import com.itonse.clotheslink.product.service.ProductManageService;
 import com.itonse.clotheslink.user.domain.Seller;
 import com.itonse.clotheslink.user.service.SellerAuthService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,8 +47,9 @@ public class ProductManageServiceImpl implements ProductManageService {
 
     @Override
     @Transactional
-    public ProductSummary updateProduct(String token, Long productId, UpdateProductDto dto) {
-        Product product = validateUpdateProduct(token, productId);
+    @CachePut(value = "ProductDetail", key = "#id")
+    public ProductDetail updateProduct(String token, Long id, UpdateProductDto dto) {
+        Product product = validateUpdateProduct(token, id);
 
         product.setName(dto.getName());
         product.setDescription(dto.getDescription());
@@ -58,7 +57,7 @@ public class ProductManageServiceImpl implements ProductManageService {
         product.setStock(dto.getStock());
         product.setDeleted(dto.isDeleted());
 
-        return ConvertProductToDto.toProductSummary(product);
+        return ConvertProductToDto.toProductDetail(product);
     }
 
     @Override
