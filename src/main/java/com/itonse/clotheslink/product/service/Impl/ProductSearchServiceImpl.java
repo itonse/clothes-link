@@ -17,6 +17,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.itonse.clotheslink.exception.ErrorCode.NOT_EXISTS_CATEGORY;
+import static com.itonse.clotheslink.exception.ErrorCode.NOT_EXISTS_PRODUCT;
+
 @RequiredArgsConstructor
 @Service
 public class ProductSearchServiceImpl implements ProductSearchService {
@@ -30,7 +33,7 @@ public class ProductSearchServiceImpl implements ProductSearchService {
     public List<ProductDetail> getRecentByCategory(String categoryName, int page) {
 
         if (!categoryRepository.existsByName(categoryName)) {
-            throw new CustomException(ErrorCode.NOT_EXISTS_CATEGORY);
+            throw new CustomException(NOT_EXISTS_CATEGORY);
         }
 
         Pageable pageable = PageRequest.of(page - 1, PAGE_SIZE,
@@ -39,6 +42,10 @@ public class ProductSearchServiceImpl implements ProductSearchService {
         List<Product> products =
                 productRepository.findProductsByCategoryNameAndDeletedFalse(
                         categoryName, pageable);
+
+        if (products.isEmpty()) {
+            throw new CustomException(NOT_EXISTS_PRODUCT);
+        }
 
         return products.stream()
                 .map(ConvertProductToDto::toProductDetail)
