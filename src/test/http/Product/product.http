@@ -1,6 +1,6 @@
 
 ### Add Category
-POST http://localhost:8080/category?name=신발
+POST http://localhost:8080/category?name=상의
 
 ### Add Product
 POST http://localhost:8080/product
@@ -9,9 +9,9 @@ Authorization:
 
 {
   "category": "신발",
-  "name": "나이키 에어포스1",
-  "description": "신발입니다",
-  "price": 120000,
+  "name": "아디다스 삼바 화이트",
+  "description": "화이트 삼바 입니다",
+  "price": 130000,
   "stock": 10
 }
 
@@ -26,3 +26,6 @@ Authorization:
   "price": 180000,
   "stock": 10
 }
+
+### 상품 카테고리 별 최신순 조회
+GET http://localhost:8080/categories/1/products/latest?page=2

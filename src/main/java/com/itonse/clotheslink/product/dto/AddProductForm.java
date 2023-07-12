@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,11 +23,11 @@ public class AddProductForm {
 
     private String description;
 
-    @NotBlank(message = "상품 가격을 입력해주세요.")
+    @NotNull(message = "상품 가격을 입력해주세요.")
     @Min(value = 0, message = "가격은 0원 이상이여야 합니다.")
     private int price;
 
-    @NotBlank(message = "재고수량 입력은 필수입니다.")
+    @NotNull(message = "재고수량 입력은 필수입니다.")
     @Min(value = 0, message = "재고수량은 0개 이상이여야 합니다.")
     private int stock;
 

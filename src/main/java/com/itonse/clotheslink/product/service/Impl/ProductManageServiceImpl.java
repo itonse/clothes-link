@@ -3,12 +3,13 @@ package com.itonse.clotheslink.product.service.Impl;
 import com.itonse.clotheslink.exception.CustomException;
 import com.itonse.clotheslink.product.domain.Category;
 import com.itonse.clotheslink.product.domain.Product;
+import com.itonse.clotheslink.product.dto.ConvertProductToDto;
 import com.itonse.clotheslink.product.dto.ProductDto;
-import com.itonse.clotheslink.product.dto.ProductSummaryInfo;
+import com.itonse.clotheslink.product.dto.ProductSummary;
 import com.itonse.clotheslink.product.dto.UpdateProductDto;
 import com.itonse.clotheslink.product.repository.CategoryRepository;
 import com.itonse.clotheslink.product.repository.ProductRepository;
-import com.itonse.clotheslink.product.service.ProductService;
+import com.itonse.clotheslink.product.service.ProductManageService;
 import com.itonse.clotheslink.user.domain.Seller;
 import com.itonse.clotheslink.user.service.SellerAuthService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ import static com.itonse.clotheslink.exception.ErrorCode.*;
 
 @RequiredArgsConstructor
 @Service
-public class ProductServiceImpl implements ProductService {
+public class ProductManageServiceImpl implements ProductManageService {
 
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
@@ -27,7 +28,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public ProductSummaryInfo addProduct(String token, ProductDto dto) {
+    public ProductSummary addProduct(String token, ProductDto dto) {
         Seller seller = sellerAuthService.validateSeller(token);
 
         Category category = categoryRepository.findByName(dto.getCategory())
@@ -38,7 +39,7 @@ public class ProductServiceImpl implements ProductService {
         product.setSeller(seller);
         productRepository.save(product);
 
-        return ProductSummaryInfo.builder()
+        return ProductSummary.builder()
                 .categoryId(product.getCategory().getId())
                 .productId(product.getId())
                 .sellerId(product.getSeller().getId())
@@ -48,7 +49,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public ProductSummaryInfo updateProduct(String token, Long productId, UpdateProductDto dto) {
+    public ProductSummary updateProduct(String token, Long productId, UpdateProductDto dto) {
         Product product = validateUpdateProduct(token, productId);
 
         product.setName(dto.getName());
@@ -57,12 +58,7 @@ public class ProductServiceImpl implements ProductService {
         product.setStock(dto.getStock());
         product.setDeleted(dto.isDeleted());
 
-        return ProductSummaryInfo.builder()
-                .categoryId(product.getCategory().getId())
-                .productId(product.getId())
-                .sellerId(product.getSeller().getId())
-                .productName(product.getName())
-                .build();
+        return ConvertProductToDto.toProductSummary(product);
     }
 
     @Override
