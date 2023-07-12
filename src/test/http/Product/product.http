@@ -28,4 +28,4 @@ Authorization:
 }
 
 ### 상품 카테고리 별 최신순 조회
-GET http://localhost:8080/products/category/신발/latest?page=2
+GET http://localhost:8080/categories/1/products/latest?page=2

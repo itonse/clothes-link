@@ -8,19 +8,18 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/products")
 @RequiredArgsConstructor
 @RestController
 public class ProductSearchController {
 
     private final ProductSearchService productSearchService;
 
-    @GetMapping("/category/{name}/latest")
+    @GetMapping("/categories/{id}/products/latest")
     public ResponseEntity<List<ProductDetail>> getRecentByCategory (
-                    @PathVariable("name") String name,
+                    @PathVariable("id") Long id,
                     @RequestParam(value="page", defaultValue = "1") int page) {
 
         return ResponseEntity.ok()
-                .body(productSearchService.getRecentByCategory(name, page));
+                .body(productSearchService.getRecentByCategory(id, page));
     }
 }

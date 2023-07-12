@@ -12,5 +12,5 @@ import java.util.Optional;
 public interface ProductRepository extends JpaRepository<Product, Long> {
     Optional<Product> findById(Long id);
 
-    List<Product> findProductsByCategoryNameAndDeletedFalse(String categoryName, Pageable pageable);
+    List<Product> findProductsByCategoryIdAndDeletedFalse(Long id, Pageable pageable);
 }

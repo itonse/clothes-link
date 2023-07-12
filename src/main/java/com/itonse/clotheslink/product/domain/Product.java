@@ -12,10 +12,6 @@ import javax.persistence.*;
 @Setter
 @Getter
 @Entity
-@Table(indexes = {
-        @Index(name = "idx_product_createdAt", columnList = "createdAt"),
-        @Index(name = "idx_product_category_id", columnList = "category_id")
-})
 public class Product extends BaseEntity {
 
     @Id

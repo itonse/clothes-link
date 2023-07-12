@@ -1,7 +1,6 @@
 package com.itonse.clotheslink.product.service.Impl;
 
 import com.itonse.clotheslink.exception.CustomException;
-import com.itonse.clotheslink.exception.ErrorCode;
 import com.itonse.clotheslink.product.domain.Product;
 import com.itonse.clotheslink.product.dto.ConvertProductToDto;
 import com.itonse.clotheslink.product.dto.ProductDetail;
@@ -30,9 +29,9 @@ public class ProductSearchServiceImpl implements ProductSearchService {
     private static final int PAGE_SIZE = 5;
 
     @Override
-    public List<ProductDetail> getRecentByCategory(String categoryName, int page) {
+    public List<ProductDetail> getRecentByCategory(Long id, int page) {
 
-        if (!categoryRepository.existsByName(categoryName)) {
+        if (!categoryRepository.existsById(id)) {
             throw new CustomException(NOT_EXISTS_CATEGORY);
         }
 
@@ -40,8 +39,8 @@ public class ProductSearchServiceImpl implements ProductSearchService {
                 Sort.by(Sort.Direction.DESC, "createdAt"));
 
         List<Product> products =
-                productRepository.findProductsByCategoryNameAndDeletedFalse(
-                        categoryName, pageable);
+                productRepository.findProductsByCategoryIdAndDeletedFalse(
+                        id, pageable);
 
         if (products.isEmpty()) {
             throw new CustomException(NOT_EXISTS_PRODUCT);

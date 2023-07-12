@@ -5,5 +5,5 @@ import com.itonse.clotheslink.product.dto.ProductDetail;
 import java.util.List;
 
 public interface ProductSearchService {
-    List<ProductDetail> getRecentByCategory(String name, int page);
+    List<ProductDetail> getRecentByCategory(Long id, int page);
 }
