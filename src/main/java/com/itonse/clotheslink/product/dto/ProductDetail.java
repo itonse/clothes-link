@@ -1,13 +1,11 @@
 package com.itonse.clotheslink.product.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Setter
 @Getter
 public class ProductDetail {
 

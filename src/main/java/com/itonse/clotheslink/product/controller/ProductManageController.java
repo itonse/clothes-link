@@ -1,6 +1,7 @@
 package com.itonse.clotheslink.product.controller;
 
 import com.itonse.clotheslink.product.dto.AddProductForm;
+import com.itonse.clotheslink.product.dto.ProductDetail;
 import com.itonse.clotheslink.product.dto.ProductSummary;
 import com.itonse.clotheslink.product.dto.UpdateProductForm;
 import com.itonse.clotheslink.product.service.ProductManageService;
@@ -26,9 +27,9 @@ public class ProductManageController {
     }
 
     @PutMapping
-    public ResponseEntity<ProductSummary> updateProduct(@RequestHeader(name = "Authorization") String token,
-                                                        @RequestParam Long id,
-                                                        @RequestBody @Valid UpdateProductForm form) {
+    public ResponseEntity<ProductDetail> updateProduct(@RequestHeader(name = "Authorization") String token,
+                                                       @RequestParam Long id,
+                                                       @RequestBody @Valid UpdateProductForm form) {
         return ResponseEntity.ok()
                 .body(productManageService.updateProduct(token, id, UpdateProductForm.toDto(form)));
     }
