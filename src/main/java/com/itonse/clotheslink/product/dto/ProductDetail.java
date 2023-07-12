@@ -14,4 +14,5 @@ public class ProductDetail {
     private String description;
     private int price;
     private int stock;
+    private boolean deleted;
 }

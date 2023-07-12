@@ -13,6 +13,7 @@ public class ConvertProductToDto {
                 .description(product.getDescription())
                 .price(product.getPrice())
                 .stock(product.getStock())
+                .deleted(product.isDeleted())
                 .build();
     }
 
