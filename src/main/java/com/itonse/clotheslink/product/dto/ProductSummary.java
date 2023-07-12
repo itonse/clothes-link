@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Getter
-public class ProductSummaryInfo {
+public class ProductSummary {
     private Long categoryId;
     private Long productId;
     private Long sellerId;
