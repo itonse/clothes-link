@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface ProductSearchService {
     List<ProductDetail> getRecentByCategory(Long id, int page);
+
+    ProductDetail getProductDetail(Long id);
 }

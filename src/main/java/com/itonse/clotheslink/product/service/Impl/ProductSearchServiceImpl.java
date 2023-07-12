@@ -50,4 +50,13 @@ public class ProductSearchServiceImpl implements ProductSearchService {
                 .map(ConvertProductToDto::toProductDetail)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public ProductDetail getProductDetail(Long id) {
+
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new CustomException(NOT_EXISTS_PRODUCT));
+
+        return ConvertProductToDto.toProductDetail(product);
+    }
 }

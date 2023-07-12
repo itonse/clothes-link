@@ -22,4 +22,11 @@ public class ProductSearchController {
         return ResponseEntity.ok()
                 .body(productSearchService.getRecentByCategory(id, page));
     }
+
+    @GetMapping("/product/{id}")
+    public ResponseEntity<ProductDetail> getProductById(@PathVariable("id") Long id) {
+
+        return ResponseEntity.ok()
+                .body(productSearchService.getProductDetail(id));
+    }
 }
