@@ -2,9 +2,12 @@ package com.itonse.clotheslink.product.service.Impl;
 
 import com.itonse.clotheslink.exception.CustomException;
 import com.itonse.clotheslink.product.domain.Product;
+import com.itonse.clotheslink.product.domain.ProductDocument;
 import com.itonse.clotheslink.product.dto.ConvertProductToDto;
 import com.itonse.clotheslink.product.dto.ProductDetail;
+import com.itonse.clotheslink.product.dto.ProductDocumentDto;
 import com.itonse.clotheslink.product.repository.CategoryRepository;
+import com.itonse.clotheslink.product.repository.ProductDocumentRepository;
 import com.itonse.clotheslink.product.repository.ProductRepository;
 import com.itonse.clotheslink.product.service.ProductSearchService;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +29,7 @@ public class ProductSearchServiceImpl implements ProductSearchService {
 
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
+    private final ProductDocumentRepository productDocumentRepository;
 
     private static final int PAGE_SIZE = 5;
 
@@ -60,5 +64,22 @@ public class ProductSearchServiceImpl implements ProductSearchService {
                 .orElseThrow(() -> new CustomException(NOT_EXISTS_PRODUCT));
 
         return ConvertProductToDto.toProductDetail(product);
+    }
+
+    @Override
+    public List<ProductDetail> getProductsByKeyword(String keyword, int page) {
+
+        Pageable pageable = PageRequest.of(page - 1, PAGE_SIZE);
+
+        List<ProductDocument> productDocuments =
+                productDocumentRepository.searchByKeyword(keyword, pageable);
+
+        if (productDocuments.isEmpty()) {
+            throw new CustomException(NOT_EXISTS_PRODUCT);
+        }
+
+        return productDocuments.stream()
+                .map(ProductDocumentDto::toProductDetail)
+                .collect(Collectors.toList());
     }
 }

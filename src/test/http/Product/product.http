@@ -9,19 +9,19 @@ Authorization:
 
 {
   "category": "신발",
-  "name": "나이키 조던1 범고래",
-  "description": "범고래 조던입니다.",
+  "name": "나이키 에어맥스1 한정판",
+  "description": "한정판 신발입니다.",
   "price": 210000,
   "stock": 10
 }
 
 ### Update Product
-PUT http://localhost:8080/product?id=5
+PUT http://localhost:8080/product?id=16
 Content-Type: application/json
 Authorization:
 
 {
-  "name": "나이키 에어포스1 SE",
+  "name": "아디다스 삼바 화이트",
   "description": "한정판 신발입니다.",
   "price": 180000,
   "stock": 10
@@ -31,4 +31,7 @@ Authorization:
 GET http://localhost:8080/categories/2/products/latest?page=1
 
 ### Product의 id로 상품 검색
-GET http://localhost:8080/product/5
+GET http://localhost:8080/product/16
+
+### 키워드로 관련 상품 검색
+GET http://localhost:8080/products/search?keyword=한정판&page=1

@@ -3,8 +3,10 @@ package com.itonse.clotheslink.product.service.Impl;
 import com.itonse.clotheslink.exception.CustomException;
 import com.itonse.clotheslink.product.domain.Category;
 import com.itonse.clotheslink.product.domain.Product;
+import com.itonse.clotheslink.product.domain.ProductDocument;
 import com.itonse.clotheslink.product.dto.*;
 import com.itonse.clotheslink.product.repository.CategoryRepository;
+import com.itonse.clotheslink.product.repository.ProductDocumentRepository;
 import com.itonse.clotheslink.product.repository.ProductRepository;
 import com.itonse.clotheslink.product.service.ProductManageService;
 import com.itonse.clotheslink.user.domain.Seller;
@@ -23,6 +25,7 @@ public class ProductManageServiceImpl implements ProductManageService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final SellerAuthService sellerAuthService;
+    private final ProductDocumentRepository productDocumentRepository;
 
     @Override
     @Transactional
@@ -36,6 +39,7 @@ public class ProductManageServiceImpl implements ProductManageService {
         product.setCategory(category);
         product.setSeller(seller);
         productRepository.save(product);
+        productDocumentRepository.save(ProductDocumentDto.from(product));
 
         return ProductSummary.builder()
                 .categoryId(product.getCategory().getId())
@@ -56,6 +60,17 @@ public class ProductManageServiceImpl implements ProductManageService {
         product.setPrice(dto.getPrice());
         product.setStock(dto.getStock());
         product.setDeleted(dto.isDeleted());
+
+        ProductDocument productDocument = productDocumentRepository.findById(id)
+                        .orElseThrow(() -> new CustomException(NOT_EXISTS_PRODUCT));
+
+        productDocument.setName(dto.getName());
+        productDocument.setDescription(dto.getDescription());
+        productDocument.setPrice(dto.getPrice());
+        productDocument.setStock(dto.getStock());
+        productDocument.setDeleted(dto.isDeleted());
+
+        productDocumentRepository.save(ProductDocumentDto.from(product));
 
         return ConvertProductToDto.toProductDetail(product);
     }
