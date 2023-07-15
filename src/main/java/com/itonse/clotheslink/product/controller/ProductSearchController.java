@@ -29,4 +29,13 @@ public class ProductSearchController {
         return ResponseEntity.ok()
                 .body(productSearchService.getProductDetail(id));
     }
+
+    @GetMapping("products/search")
+    public ResponseEntity<List<ProductDetail>> getProductsByKeyword(
+            @RequestParam(value = "keyword") String keyword,
+            @RequestParam(value = "page", defaultValue = "1") int page) {
+
+        return ResponseEntity.ok()
+                .body(productSearchService.getProductsByKeyword(keyword, page));
+    }
 }

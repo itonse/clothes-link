@@ -1,0 +1,11 @@
+
+### product_index 의 인덱스 설정, 매핑정보 확인
+GET http://localhost:9200/product_index
+
+### product_index 의 모든 데이터 검색
+GET http://localhost:9200/product_index/_search?pretty
+
+### product_index 삭제하기
+DELETE http://localhost:9200/product_index
+
+
