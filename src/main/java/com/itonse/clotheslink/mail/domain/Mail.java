@@ -26,6 +26,5 @@ public class Mail {
     @Enumerated(EnumType.STRING)
     private UserType userType;
     private String authCode;
-    private boolean verified;
     private LocalDateTime expiredAt;
 }
