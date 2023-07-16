@@ -22,7 +22,7 @@ public enum ErrorCode {
     ALREADY_REGISTERED_CATEGORY(HttpStatus.BAD_REQUEST, "이미 등록된 카테고리 입니다."),
     NOT_EXISTS_CATEGORY(HttpStatus.BAD_REQUEST, "존재하지 않는 카테고리 입니다."),
     EMPTY_CATEGORY_NAME(HttpStatus.BAD_REQUEST, "카테고리 이름은 최소 한 글자 이상입니다."),
-    UNAUTHORIZED_USER(HttpStatus.UNAUTHORIZED, "인증된 회원이 아닙니다."),
+    UNAUTHORIZED_SELLER(HttpStatus.UNAUTHORIZED, "인증된 판매자가 아닙니다."),
     UNAUTHORIZED_CUSTOMER(HttpStatus.UNAUTHORIZED, "인증된 고객이 아닙니다."),
     NOT_EXISTS_PRODUCT(HttpStatus.BAD_REQUEST, "상품이 존재하지 않습니다."),
     NOT_SELLERS_PRODUCT(HttpStatus.BAD_REQUEST, "판매자의 상품이 아닙니다."),

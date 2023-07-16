@@ -12,12 +12,14 @@ import com.itonse.clotheslink.product.service.ProductManageService;
 import com.itonse.clotheslink.user.domain.Seller;
 import com.itonse.clotheslink.user.service.SellerAuthService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import static com.itonse.clotheslink.exception.ErrorCode.*;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class ProductManageServiceImpl implements ProductManageService {
@@ -72,6 +74,7 @@ public class ProductManageServiceImpl implements ProductManageService {
 
         productDocumentRepository.save(ProductDocumentDto.from(product));
 
+        log.info(" Product (id: {}) has been updated ", id);
         return ConvertProductToDto.toProductDetail(product);
     }
 

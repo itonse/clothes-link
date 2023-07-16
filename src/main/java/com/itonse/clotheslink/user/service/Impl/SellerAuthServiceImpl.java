@@ -68,14 +68,10 @@ public class SellerAuthServiceImpl implements SellerAuthService {
 
     @Override
     public Seller validateSeller(String token) {
-        if (!jwtTokenProvider.validateToken(token)) {
-            throw new CustomException(INVALID_TOKEN);
-        }
-
         Seller seller = findSellerByToken(token);
 
         if (!seller.isAuthenticated()) {
-            throw new CustomException(UNAUTHORIZED_USER);
+            throw new CustomException(UNAUTHORIZED_SELLER);
         }
 
         return seller;
