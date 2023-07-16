@@ -1,0 +1,9 @@
+### 카트에 상품 담기
+POST http://localhost:8080/cart/product/new
+Content-Type: application/json
+Authorization:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJvbmVAbmF2ZXIuY29tIiwianRpIjoiMSIsInJvbGVzIjoiQ1VTVE9NRVIiLCJpYXQiOjE2ODk0Nzg3OTcsImV4cCI6MTY4OTQ4OTU5N30.QlvB6Hij26TUl-SxIVmmZgnKTX5xkOTtvwNZbZl8oqQ
+
+{
+  "productId": 16,
+  "count": 1
+}

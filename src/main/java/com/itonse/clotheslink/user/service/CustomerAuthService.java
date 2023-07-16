@@ -12,4 +12,6 @@ public interface CustomerAuthService {
     String signIn(SignInDto dto);
 
     Customer findCustomerByToken(String token);
+
+    Customer validateCustomer(String token);
 }
