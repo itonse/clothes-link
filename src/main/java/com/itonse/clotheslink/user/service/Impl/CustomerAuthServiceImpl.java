@@ -65,4 +65,15 @@ public class CustomerAuthServiceImpl implements CustomerAuthService {
         return customerRepository.findByIdAndEmail(vo.getId(), vo.getEmail())
                 .orElseThrow(() -> new CustomException(NOT_FOUND_USER));
     }
+
+    @Override
+    public Customer validateCustomer(String token) {
+        Customer customer = findCustomerByToken(token);
+
+        if (!customer.isAuthenticated()) {
+            throw new CustomException(UNAUTHORIZED_CUSTOMER);
+        }
+
+        return customer;
+    }
 }
