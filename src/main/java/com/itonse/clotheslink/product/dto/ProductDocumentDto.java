@@ -1,24 +1,26 @@
 package com.itonse.clotheslink.product.dto;
 
-import com.itonse.clotheslink.product.domain.Product;
 import com.itonse.clotheslink.product.domain.ProductDocument;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Getter
 public class ProductDocumentDto {
-
-    public static ProductDocument from (Product product) {
-        return ProductDocument.builder()
-                .id(product.getId())
-                .name(product.getName())
-                .description(product.getDescription())
-                .price(product.getPrice())
-                .stock(product.getStock())
-                .deleted(product.isDeleted())
-                .build();
-    }
+    private Long productId;
+    private String name;
+    private String description;
+    private int price;
+    private int stock;
+    private boolean deleted;
 
     public static ProductDetail toProductDetail(ProductDocument productDocument) {
         return ProductDetail.builder()
-                .ProductId(productDocument.getId())
+                .productId(productDocument.getId())
                 .name(productDocument.getName())
                 .description(productDocument.getDescription())
                 .price(productDocument.getPrice())

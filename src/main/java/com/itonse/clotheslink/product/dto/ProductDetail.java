@@ -9,7 +9,7 @@ import lombok.*;
 @Getter
 public class ProductDetail {
 
-    private Long ProductId;
+    private Long productId;
     private String name;
     private String description;
     private int price;

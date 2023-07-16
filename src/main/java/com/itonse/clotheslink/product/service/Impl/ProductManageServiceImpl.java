@@ -41,14 +41,9 @@ public class ProductManageServiceImpl implements ProductManageService {
         product.setCategory(category);
         product.setSeller(seller);
         productRepository.save(product);
-        productDocumentRepository.save(ProductDocumentDto.from(product));
+        productDocumentRepository.save(ConvertProduct.toProductDocument.from(product));
 
-        return ProductSummary.builder()
-                .categoryId(product.getCategory().getId())
-                .productId(product.getId())
-                .sellerId(product.getSeller().getId())
-                .productName(product.getName())
-                .build();
+        return ConvertProduct.toProductSummary.from(product);
     }
 
     @Override
@@ -72,10 +67,10 @@ public class ProductManageServiceImpl implements ProductManageService {
         productDocument.setStock(dto.getStock());
         productDocument.setDeleted(dto.isDeleted());
 
-        productDocumentRepository.save(ProductDocumentDto.from(product));
+        productDocumentRepository.save(ConvertProduct.toProductDocument.from(product));
 
         log.info(" Product (id: {}) has been updated ", id);
-        return ConvertProductToDto.toProductDetail(product);
+        return ConvertProduct.toProductDetail.from(product);
     }
 
     @Override

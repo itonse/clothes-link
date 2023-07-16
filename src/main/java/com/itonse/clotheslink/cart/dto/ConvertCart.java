@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 @NoArgsConstructor
 @Builder
 @Getter
-public class ConvertCartToDto {
+public class ConvertCart {
     private Long cartId;
     private String productName;
     private Long count;

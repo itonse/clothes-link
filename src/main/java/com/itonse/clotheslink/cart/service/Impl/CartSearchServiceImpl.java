@@ -2,7 +2,7 @@ package com.itonse.clotheslink.cart.service.Impl;
 
 import com.itonse.clotheslink.cart.domain.Cart;
 import com.itonse.clotheslink.cart.dto.CartDetail;
-import com.itonse.clotheslink.cart.dto.ConvertCartToDto;
+import com.itonse.clotheslink.cart.dto.ConvertCart;
 import com.itonse.clotheslink.cart.repository.CartRepository;
 import com.itonse.clotheslink.cart.service.CartSearchService;
 import com.itonse.clotheslink.exception.CustomException;
@@ -44,7 +44,7 @@ public class CartSearchServiceImpl implements CartSearchService {
         }
 
         return carts.stream()
-                .map(ConvertCartToDto::toCartDetail)
+                .map(ConvertCart::toCartDetail)
                 .collect(Collectors.toList());
     }
 }

@@ -3,7 +3,7 @@ package com.itonse.clotheslink.product.service.Impl;
 import com.itonse.clotheslink.exception.CustomException;
 import com.itonse.clotheslink.product.domain.Product;
 import com.itonse.clotheslink.product.domain.ProductDocument;
-import com.itonse.clotheslink.product.dto.ConvertProductToDto;
+import com.itonse.clotheslink.product.dto.ConvertProduct;
 import com.itonse.clotheslink.product.dto.ProductDetail;
 import com.itonse.clotheslink.product.dto.ProductDocumentDto;
 import com.itonse.clotheslink.product.repository.CategoryRepository;
@@ -52,7 +52,7 @@ public class ProductSearchServiceImpl implements ProductSearchService {
         }
 
         return products.stream()
-                .map(ConvertProductToDto::toProductDetail)
+                .map(ConvertProduct.toProductDetail::from)
                 .collect(Collectors.toList());
     }
 
@@ -63,7 +63,7 @@ public class ProductSearchServiceImpl implements ProductSearchService {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new CustomException(NOT_EXISTS_PRODUCT));
 
-        return ConvertProductToDto.toProductDetail(product);
+        return ConvertProduct.toProductDetail.from(product);
     }
 
     @Override
