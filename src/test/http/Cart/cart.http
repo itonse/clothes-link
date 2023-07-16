@@ -4,8 +4,8 @@ Content-Type: application/json
 Authorization:
 
 {
-  "productId": 16,
-  "count": 1
+  "productId": 21,
+  "count": 2
 }
 
 ### 카트에 있는 상품의 수량 변경
@@ -19,6 +19,9 @@ Authorization:
 }
 
 ### 카트에 들어있는 상품 삭제
-DELETE http://localhost:8080/cart
-Content-Type: application/json
+DELETE http://localhost:8080/cart/6
+Authorization:
+
+### 장바구니 조회 (최근 수정 순)
+GET http://localhost:8080/cart/customer/recently-update?page=1
 Authorization:

@@ -5,7 +5,7 @@ import com.itonse.clotheslink.cart.dto.CartDto;
 import com.itonse.clotheslink.cart.dto.CartInfo;
 import com.itonse.clotheslink.cart.dto.ValidationResult;
 import com.itonse.clotheslink.cart.repository.CartRepository;
-import com.itonse.clotheslink.cart.service.CartService;
+import com.itonse.clotheslink.cart.service.CartManageService;
 import com.itonse.clotheslink.exception.CustomException;
 import com.itonse.clotheslink.product.domain.Product;
 import com.itonse.clotheslink.product.repository.ProductRepository;
@@ -19,7 +19,7 @@ import static com.itonse.clotheslink.exception.ErrorCode.*;
 
 @RequiredArgsConstructor
 @Service
-public class CartServiceImpl implements CartService {
+public class CartManageServiceImpl implements CartManageService {
 
     private final CartRepository cartRepository;
     private final ProductRepository productRepository;
