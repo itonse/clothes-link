@@ -10,6 +10,8 @@ public interface CartService {
 
     CartInfo modifyProductQuantity(String token, CartDto dto);
 
+    Long deleteProduct(String token, Long id);
+
     ValidationResult validateCustomerAndProduct(String token, CartDto dto);
 
     void checkProductQuantity(Product product, int count);

@@ -76,6 +76,18 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    @Transactional
+    public Long deleteProduct(String token, Long id) {
+        Customer customer = customerAuthService.validateCustomer(token);
+
+        Cart cart = cartRepository.findByIdAndCustomer(id, customer)
+                .orElseThrow(() -> new CustomException(NOT_EXISTS_CART));
+
+        cartRepository.delete(cart);
+        return id;
+    }
+
+    @Override
     public ValidationResult validateCustomerAndProduct(String token, CartDto dto) {
         Customer customer = customerAuthService.validateCustomer(token);
 
