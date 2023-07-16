@@ -24,4 +24,13 @@ public class CartController {
         return ResponseEntity.ok()
                 .body(cartService.addNewProduct(token, CartForm.toCartDto(form)));
     }
+
+    @PatchMapping("product/count")
+    public ResponseEntity<CartInfo> modifyProductQuantity(
+            @RequestHeader(name = "Authorization") String token,
+            @RequestBody @Valid CartForm form) {
+
+        return ResponseEntity.ok()
+                .body(cartService.modifyProductQuantity(token, CartForm.toCartDto(form)));
+    }
 }

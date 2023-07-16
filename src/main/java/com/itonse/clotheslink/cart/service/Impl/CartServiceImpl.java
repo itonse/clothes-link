@@ -54,6 +54,28 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    @Transactional
+    public CartInfo modifyProductQuantity(String token, CartDto dto) {
+        ValidationResult result = validateCustomerAndProduct(token, dto);
+        Customer customer = result.getCustomer();
+        Product product = result.getProduct();
+
+        Cart cart = cartRepository.findByProductAndCustomer(product, customer)
+                .orElseThrow(() -> new CustomException(NOT_EXISTS_CART));
+
+        int totalCount = cart.getCount() + dto.getCount();
+        checkProductQuantity(product, totalCount);
+        cart.setCount(totalCount);
+
+        return CartInfo.builder()
+                .id(cart.getId())
+                .count(cart.getCount())
+                .productId(product.getId())
+                .customerId(customer.getId())
+                .build();
+    }
+
+    @Override
     public ValidationResult validateCustomerAndProduct(String token, CartDto dto) {
         Customer customer = customerAuthService.validateCustomer(token);
 

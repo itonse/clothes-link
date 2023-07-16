@@ -8,6 +8,8 @@ import com.itonse.clotheslink.product.domain.Product;
 public interface CartService {
     CartInfo addNewProduct(String token, CartDto dto);
 
+    CartInfo modifyProductQuantity(String token, CartDto dto);
+
     ValidationResult validateCustomerAndProduct(String token, CartDto dto);
 
     void checkProductQuantity(Product product, int count);

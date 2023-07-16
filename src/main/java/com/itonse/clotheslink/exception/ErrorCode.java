@@ -30,7 +30,8 @@ public enum ErrorCode {
     SALES_STOPPED_PRODUCT(HttpStatus.BAD_REQUEST, "판매 중지된 상품입니다."),
     EXCEEDED_STOCK_QUANTITY(HttpStatus.BAD_REQUEST, "상품의 재고보다 수량을 초과했습니다."),
     ALREADY_EXISTS_CART(HttpStatus.BAD_REQUEST, "해당 상품은 이미 장바구니에 존재합니다."),
-    INVALID_QUANTITY(HttpStatus.BAD_REQUEST, "수량은 0개 이상 담아야 합니다.");
+    INVALID_QUANTITY(HttpStatus.BAD_REQUEST, "수량은 0개 이상 담아야 합니다."),
+    NOT_EXISTS_CART(HttpStatus.BAD_REQUEST, "해당 상품이 카트에 존재하지 않습니다.");
 
     private final HttpStatus httpStatus;
     private final String message;
