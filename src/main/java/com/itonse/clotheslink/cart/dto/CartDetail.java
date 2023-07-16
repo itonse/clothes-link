@@ -14,6 +14,7 @@ public class CartDetail {
     private Long cartId;
     private String productName;
     private int count;
+    private int totalAmount;
     private boolean deletedProduct;
     private String lastModifiedAt;
 }
