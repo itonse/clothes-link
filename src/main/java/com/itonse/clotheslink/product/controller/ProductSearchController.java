@@ -16,8 +16,8 @@ public class ProductSearchController {
 
     @GetMapping("/categories/{id}/products/latest")
     public ResponseEntity<List<ProductDetail>> getRecentByCategory (
-                    @PathVariable("id") Long id,
-                    @RequestParam(value="page", defaultValue = "1") int page) {
+            @PathVariable("id") Long id,
+            @RequestParam(value="page", defaultValue = "1") int page) {
 
         return ResponseEntity.ok()
                 .body(productSearchService.getRecentByCategory(id, page));
