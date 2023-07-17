@@ -113,4 +113,10 @@ public class CartManageServiceImpl implements CartManageService {
             throw new CustomException(EXCEEDED_STOCK_QUANTITY);
         }
     }
+
+    @Override
+    @Transactional
+    public void refreshCustomerCarts(Customer customer) {
+        cartRepository.deleteAllByCustomer(customer);
+    }
 }

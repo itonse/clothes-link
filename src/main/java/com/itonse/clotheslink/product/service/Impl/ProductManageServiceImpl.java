@@ -1,5 +1,6 @@
 package com.itonse.clotheslink.product.service.Impl;
 
+import com.itonse.clotheslink.cart.domain.Cart;
 import com.itonse.clotheslink.exception.CustomException;
 import com.itonse.clotheslink.product.domain.Category;
 import com.itonse.clotheslink.product.domain.Product;
@@ -16,6 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static com.itonse.clotheslink.exception.ErrorCode.*;
 
@@ -87,4 +90,13 @@ public class ProductManageServiceImpl implements ProductManageService {
         return product;
     }
 
+    @Override
+    @Transactional
+    public void updateProductStocksInCarts(List<Cart> carts) {
+        carts.forEach(cart -> {
+            Product product = productRepository.findById(cart.getProduct().getId())
+                    .orElseThrow(() -> new CustomException(NOT_EXISTS_PRODUCT));
+            product.reduceStock(cart.getCount());
+        });
+    }
 }

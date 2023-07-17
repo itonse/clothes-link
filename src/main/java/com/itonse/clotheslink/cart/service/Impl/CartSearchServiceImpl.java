@@ -47,4 +47,14 @@ public class CartSearchServiceImpl implements CartSearchService {
                 .map(ConvertCart::toCartDetail)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<Cart> getCustomerCarts(Customer customer) {
+        List<Cart> carts = cartRepository.findAllByCustomer(customer);
+
+        if (carts.isEmpty()) {
+            throw new CustomException(EMPTY_CART);
+        }
+        return carts;
+    }
 }
