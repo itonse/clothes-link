@@ -1,5 +1,6 @@
 package com.itonse.clotheslink.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @Configuration
 public class SwaggerConfig {
+    @Bean
     public Docket api() {
         return new Docket(DocumentationType.OAS_30)
                 .securityContexts(Arrays.asList(securityContext()))
