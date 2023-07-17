@@ -20,4 +20,8 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
         Optional<Cart> findByIdAndCustomer(Long id, Customer customer);
 
         List<Cart> findCartsByCustomer(Customer customer, Pageable pageable);
+
+        List<Cart> findAllByCustomer(Customer customer);
+
+        void deleteAllByCustomer(Customer customer);
 }

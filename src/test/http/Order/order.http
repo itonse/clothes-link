@@ -1,0 +1,10 @@
+### 장바구니 전체 주문
+POST http://localhost:8080/order
+Content-Type: application/json
+Authorization:
+
+{
+  "customerName": "김일번",
+  "address": "서울특별시 성북구 화랑도 11길 26",
+  "requests": "배송시 상품은 문 앞에 놓아주세요."
+}
