@@ -23,6 +23,15 @@ public class ProductSearchController {
                 .body(productSearchService.getRecentByCategory(id, page));
     }
 
+    @GetMapping("products/latest")
+    public ResponseEntity<List<ProductDetail>> getRecentByName(
+            @RequestParam(value = "name") String name,
+            @RequestParam(value = "page", defaultValue = "1") int page) {
+
+        return ResponseEntity.ok()
+                .body(productSearchService.getRecentByName(name, page));
+    }
+
     @GetMapping("/product/{id}")
     public ResponseEntity<ProductDetail> getProductById(@PathVariable("id") Long id) {
 

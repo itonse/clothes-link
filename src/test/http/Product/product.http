@@ -30,6 +30,9 @@ Authorization:
 ### 상품 카테고리 별 최신순 조회
 GET http://localhost:8080/categories/2/products/latest?page=1
 
+### 상품명으로 상품 검색 (최신순)
+GET http://localhost:8080/products/latest?name=컨버스 척70 아이보리&page=1
+
 ### Product의 id로 상품 검색
 GET http://localhost:8080/product/16
 
