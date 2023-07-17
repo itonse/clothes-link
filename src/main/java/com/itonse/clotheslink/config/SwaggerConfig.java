@@ -50,7 +50,7 @@ public class SwaggerConfig {
     private ApiInfo apiInfo(){
         return new ApiInfoBuilder()
                 .title("ClothesLink")
-                .description("e-commerce project")
+                .description("쉽고 편리한 쇼핑을 제공하는 온라인 쇼핑몰입니다.")
                 .version("1.0")
                 .build();
     }
