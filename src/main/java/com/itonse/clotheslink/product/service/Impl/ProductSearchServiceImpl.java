@@ -57,6 +57,24 @@ public class ProductSearchServiceImpl implements ProductSearchService {
     }
 
     @Override
+    public List<ProductDetail> getRecentByName(String name, int page) {
+
+        Pageable pageable = PageRequest.of(page - 1, PAGE_SIZE,
+                Sort.by(Sort.Direction.DESC, "createdAt"));
+
+        List<Product> products =
+                productRepository.findAllByName(name, pageable);
+
+        if (products.isEmpty()) {
+            throw new CustomException(NOT_EXISTS_PRODUCT);
+        }
+
+        return products.stream()
+                .map(ConvertProduct.toProductDetail::from)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     @Cacheable(value = "ProductDetail", key = "#id")
     public ProductDetail getProductDetail(Long id) {
 
