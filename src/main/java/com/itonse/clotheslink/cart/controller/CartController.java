@@ -23,7 +23,7 @@ public class CartController {
     private final CartManageService cartManageService;
     private final CartSearchService cartSearchService;
 
-    @ApiOperation(value = "카트에 상품 담기", notes = "현재 카트에 없는 상품을 담는다.")
+    @ApiOperation(value = "장바구니에 상품 담기", notes = "장바구니에 없는 상품을 담는다.")
     @PostMapping("/product/new")
     public ResponseEntity<CartInfo> addNewProduct(
             @RequestHeader(name = "Authorization") String token,
@@ -33,7 +33,7 @@ public class CartController {
                 .body(cartManageService.addNewProduct(token, CartForm.toCartDto(form)));
     }
 
-    @ApiOperation(value = "카트에 있는 상품의 수량 변경")
+    @ApiOperation(value = "장바구니에 있는 상품의 수량 변경")
     @PatchMapping("/product/count")
     public ResponseEntity<CartInfo> modifyProductQuantity(
             @RequestHeader(name = "Authorization") String token,
@@ -43,7 +43,7 @@ public class CartController {
                 .body(cartManageService.modifyProductQuantity(token, CartForm.toCartDto(form)));
     }
 
-    @ApiOperation(value = "카트에 들어있는 상품 삭제", notes = "모든 수량을 삭제한다.")
+    @ApiOperation(value = "장바구니에 들어있는 상품 삭제", notes = "모든 수량을 삭제한다.")
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, Long>> deleteProduct(
             @RequestHeader(name = "Authorization") String token,

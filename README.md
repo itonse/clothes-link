@@ -1,4 +1,4 @@
-# 이커머스 프로젝트
+# 이커머스 프로젝트 🛒
 
 ## 프로젝트 기능 및 설계
 
@@ -48,15 +48,11 @@
 
 </br>
 
-## Trouble Shooting
-[go to the trouble shooting section](doc/TROUBLE_SHOOTING.md)
 
-### Tech Stack
+
+### ⚒️Tech Stack
 - java 11
-- Spring Boot 2.7.12 
-- Swagger
-- Redis
-- Elasticsearch
+- Spring Boot 2.7.12
 
 <div align=center> 
   <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white"> 
