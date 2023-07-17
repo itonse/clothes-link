@@ -42,7 +42,7 @@
 </br>
 
 ## ERD
-![erd](images/erd.png)
+![erd](images/ERD.png)
 
 </br>
 
